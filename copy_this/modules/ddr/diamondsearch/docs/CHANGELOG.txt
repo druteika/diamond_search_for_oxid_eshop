@@ -1,0 +1,4 @@
+Diamond Search change log
+
+==0.1.0 beta==
+ * First module release

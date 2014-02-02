@@ -1,0 +1,31 @@
+/* Diamond Search - auto-complete element styles for OXID eShop Azure theme */
+
+ul.ui-autocomplete {
+    border: 1px solid #999999;
+    border-bottom: none;
+    border-radius: 3px;
+    box-shadow: 3px 3px 10px #999999;
+    margin: 0;
+    width: 116px;
+    z-index: 100 !important;
+}
+
+ul.ui-autocomplete li {
+    background-color: #D9DFE1;
+    border-bottom: 1px solid #999999;
+    list-style: none;
+    padding: 2px 8px;
+}
+
+ul.ui-autocomplete li a {
+    color: #333333;
+    cursor: pointer;
+}
+
+ul.ui-autocomplete li:hover {
+    background-color: #F67504;
+}
+
+ul.ui-autocomplete li:hover a {
+    color: #FFFFFF;
+}

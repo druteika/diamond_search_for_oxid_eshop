@@ -1,0 +1,31 @@
+/* Diamond Search - Monitor dashboard page styles */
+
+div.diamond-search-monitor {
+    background: linear-gradient(#FFFFFF, #D1D8DB) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #3799B1;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+div.diamond-search-monitor table {
+    margin: 10px 0;
+    width: 100%;
+}
+
+div.diamond-search-monitor tr td,
+div.diamond-search-monitor tr th {
+    padding: 3px 6px;
+}
+
+div.diamond-search-monitor tr td {
+    cursor: pointer;
+}
+
+div.diamond-search-monitor tr th {
+    border-bottom: 1px dotted #3799B1;
+}
+
+div.diamond-search-monitor tr:hover td {
+    background-color: #F67504;
+    color: #FFFFFF;
+}
