@@ -187,7 +187,7 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
         }
 
         // Set article field copies
-        if ( $oArticle->getCategory()->getId() ) {
+        if ( $oArticle->getCategory() and $oArticle->getCategory()->getId() ) {
             $oTerm2Article->setCategoryId( $oArticle->getCategory()->getId() );
         }
 
