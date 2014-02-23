@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -29,6 +29,8 @@ $aLang = array(
     // Settings
     'SHOP_MODULE_DdrDiamondSearchBundleSize'     => 'Max articles count for each auto-indexing run. The more it is the faster article will automatically re-index. But notice, that for big values shop might work slow!',
     'SHOP_MODULE_DdrDiamondSearchCronSize'       => 'Max articles count for each cron script indexing run. The more it is the faster article will re-index. But notice, that for big values might cause server timeouts!',
+    'SHOP_MODULE_DdrDiamondSearchIndexOnChange'  => 'Index articles immediately on create or change. If not checked, articles will be only added to indexing queue on create/change.',
+    'SHOP_MODULE_DdrDiamondSearchSaveStats'      => 'Collect statistics during search. It provides extra features, but makes search a bit slower.',
 
     'SHOP_MODULE_DdrDiamondSearchFallback'       => 'Should the search fallback to default search on no results or not. Select it in cases of re-indexing huge amounts of articles as temporary alternative.',
     'SHOP_MODULE_DdrDiamondSearchOnlyParent'     => 'Do not show variants in search results - only parent articles will be shown.',

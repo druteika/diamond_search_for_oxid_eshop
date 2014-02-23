@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -17,6 +17,8 @@
 /**
  * Class DdrDiamondSearchOxArticle.
  * Extends oxArticle model.
+ *
+ * @see oxArticle
  */
 class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
 {
@@ -26,7 +28,7 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
      *
      * @param null|string $sId
      *
-     * @return boolean|array
+     * @return array Two dimensional array with terms as first key and filter values as second one.
      */
     public function parseArticleTerms( $sId = null )
     {
@@ -35,30 +37,36 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
         }
 
         if ( !$this->getId() ) {
-            return false;
+            return array(false, false);
         }
 
         $aSearchFields = oxRegistry::get( 'DdrDiamondSearchConfig' )->getSearchFields();
 
         if ( empty( $aSearchFields ) or !is_array( $aSearchFields ) ) {
-            return false;
+            return array(false, false);
         }
 
         // Pre-load related object
+        $this->getLongDescription();
         $this->getCategory();
         $this->getAttributes();
 
-        $aTerms = array();
+        $aTerms       = array();
+        $aFilterValue = array();
 
         foreach ( $aSearchFields as $sFieldName => $aFieldParams ) {
             $sFieldValue = $this->_getFieldValue( $aFieldParams );
 
             if ( !empty( $sFieldValue ) ) {
                 $aTerms = $this->_parseFieldTerms( $sFieldName, $aFieldParams, $sFieldValue, $aTerms );
+
+                if ( !empty( $aFieldParams['filter'] ) ) {
+                    $aFilterValue[$sFieldName] = $sFieldValue;
+                }
             }
         }
 
-        return $aTerms;
+        return array($aTerms, $aFilterValue);
     }
 
 
@@ -78,14 +86,23 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
             /** var DdrDiamondSearchToIndex $oToIndex */
             $oToIndex = oxNew( 'DdrDiamondSearchToIndex' );
 
-            if ( !$oToIndex->load( $mResult ) ) {
-                $oToIndex->setId( $mResult );
-            }
+            //@nice2have: loadByArticleId implementation
+            /* if ( !$oToIndex->load( $mResult ) ) {
+                $oToIndex->setArticleId( $mResult );
+            } */
+            $oToIndex->load( $mResult );
+            $oToIndex->setArticleId( $mResult );
 
             if ( !empty( $this->oxarticles__oxactive->value ) ) {
+                if ( oxRegistry::get( 'DdrDiamondSearchModule' )->getSetting( 'IndexOnChange' ) ) {
 
-                // If article is active, add it to indexing queue
-                $oToIndex->save();
+                    // Index the article now
+                    oxRegistry::get( 'DdrDiamondSearchIndexer' )->indexArticle( $this );
+                } else {
+
+                    // If article is active, add it to indexing queue
+                    $oToIndex->save();
+                }
             } else {
 
                 // If article is not active, remove it from indexing queue
@@ -135,7 +152,8 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
      */
     protected function _getFieldValue( $aParams )
     {
-        $sValue = '';
+        $sValue = null;
+        $sField = '';
 
         /** @var DdrDiamondSearchParser $oParser */
         $oParser = oxRegistry::get( 'DdrDiamondSearchParser' );
@@ -147,6 +165,17 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
         switch ( $sTable ) {
             case 'oxarticles':
                 $oObject = $this;
+                break;
+
+            case 'oxartextends':
+                $oObject = $this;
+
+                if ( $sName == 'oxtags' ) {
+                    $sValue = $oObject->getTags();
+                } elseif ( $sName == 'oxlongdesc' ) {
+                    $sField = '_oLongDesc';
+                }
+
                 break;
 
             case 'oxcategories':
@@ -168,15 +197,17 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
                 break;
 
             default:
-                return $sValue;
+                return (string) $sValue;
         }
 
-        $sField = sprintf( '%s__%s', $sTable, $sName );
-        $sValue = !empty( $oObject->$sField->value ) ?
-            (string) $oObject->$sField->value :
-            '';
+        if ( is_null( $sValue ) ) {
+            $sField = !empty( $sField ) ? $sField : sprintf( '%s__%s', $sTable, $sName );
+            $sValue = !empty( $oObject->$sField->value ) ?
+                (string) $oObject->$sField->value :
+                '';
+        }
 
-        return $sValue;
+        return html_entity_decode( $sValue );
     }
 
     /**

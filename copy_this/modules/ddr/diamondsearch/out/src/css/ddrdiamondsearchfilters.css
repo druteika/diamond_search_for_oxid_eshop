@@ -1,0 +1,61 @@
+/* Diamond Search - filters widget styles for OXID eShop Azure theme */
+
+div#ddrdiamondsearchfilter ul {
+    padding: 6px 0 2px 0;
+}
+
+div#ddrdiamondsearchfilter ul li {
+    min-height: 215px;
+}
+
+div#ddrdiamondsearchfilter ul li.reset {
+    background: #FFFFFF;
+    min-height: 20px;
+    padding: 0 10px;
+    text-align: center;
+}
+
+div#ddrdiamondsearchfilter ul li.reset-top {
+    border-bottom: 1px solid #58B3CA;
+}
+
+div#ddrdiamondsearchfilter ul li.reset-bottom {
+    border-top: 1px solid #58B3CA;
+    padding: 4px 10px 0 10px;
+}
+
+div#ddrdiamondsearchfilter ul li label {
+    background: linear-gradient(#E5E5E5, #DBDBDB) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px;
+    text-align: center;
+    width: 155px;
+}
+
+/* jQuery UI styles overrides */
+
+div.ui-multiselect-header {
+    background: none;
+    content: '';
+    display: none;
+}
+
+button.ui-state-default {
+    background: none;
+    border: 0;
+    height: 0;
+    padding: 0;
+}
+
+button.ui-state-default span.ui-icon {
+    background: none;
+}
+
+.ui-multiselect-menu {
+    background: #FFFFFF;
+    width: 160px !important;
+}

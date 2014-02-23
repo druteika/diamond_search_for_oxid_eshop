@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -159,9 +159,7 @@ class DdrDiamondSearchTerm extends DdrDiamondSearchOxBase
     {
         $iTimesSearched = (int) $this->getTimesSearched();
 
-        if ( !empty( $iTimesSearched ) ) {
-            $this->ddrdiamondsearch_terms__ddrtimessearched = new oxField( ++$iTimesSearched );
-        }
+        $this->ddrdiamondsearch_terms__ddrtimessearched = new oxField( ++$iTimesSearched );
     }
 
     /**
@@ -181,9 +179,7 @@ class DdrDiamondSearchTerm extends DdrDiamondSearchOxBase
     {
         $iTimesSearchedAlone = (int) $this->getTimesSearchedAlone();
 
-        if ( !empty( $iTimesSearchedAlone ) ) {
-            $this->ddrdiamondsearch_terms__ddrtimessearchedaalone = new oxField( ++$iTimesSearchedAlone );
-        }
+        $this->ddrdiamondsearch_terms__ddrtimessearchedaalone = new oxField( ++$iTimesSearchedAlone );
     }
 
     /**
@@ -214,13 +210,8 @@ class DdrDiamondSearchTerm extends DdrDiamondSearchOxBase
     public function save( $blSearchUpdate = true )
     {
         $sDateTime = date( 'Y-m-d H:i:s' );
-        $oModule   = oxRegistry::get( 'DdrDiamondSearchModule' );
-
-        $this->ddrdiamondsearch_terms__ddrshopid = new oxField( $oModule->getShopId() );
-        $this->ddrdiamondsearch_terms__ddrlangid = new oxField( (int) $oModule->getLanguageId() );
 
         if ( $this->getId() ) {
-
             if ( !empty( $blSearchUpdate ) ) {
 
                 // For update on searching for the term, set last searched date and time
@@ -232,8 +223,13 @@ class DdrDiamondSearchTerm extends DdrDiamondSearchOxBase
             }
         } else {
 
-            // On first save, set first index date and time
+            /** @var DdrDiamondSearchModule $oModule */
+            $oModule = oxRegistry::get( 'DdrDiamondSearchModule' );
+
+            // On first save, set first index date and time, language and shop IDs
             $this->ddrdiamondsearch_terms__ddrfirstindexedat = new oxField( $sDateTime );
+            $this->ddrdiamondsearch_terms__ddrshopid         = new oxField( $oModule->getShopId() );
+            $this->ddrdiamondsearch_terms__ddrlangid         = new oxField( (int) $oModule->getLanguageId() );
         }
 
         return $this->_DdrDiamondSearchTerm_save_parent();
@@ -251,7 +247,7 @@ class DdrDiamondSearchTerm extends DdrDiamondSearchOxBase
     {
         $sQuery = sprintf(
             "SELECT * FROM `%s` WHERE %s `DDRTERM` = %s LIMIT 1",
-            getViewName( 'ddrdiamondsearch_terms' ),
+            $this->getCoreTableName(),
             $this->getShopAndLanguageSnippet(),
             oxDb::getDb()->quote( trim( (string) $sTerm ) )
         );

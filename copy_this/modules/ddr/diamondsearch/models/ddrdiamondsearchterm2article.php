@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -258,15 +258,16 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
     public function save()
     {
         $sDateTime = date( 'Y-m-d H:i:s' );
-        $oModule   = oxRegistry::get( 'DdrDiamondSearchModule' );
-
-        $this->ddrdiamondsearch_term2article__ddrshopid = new oxField( $oModule->getShopId() );
-        $this->ddrdiamondsearch_term2article__ddrlangid = new oxField( (int) $oModule->getLanguageId() );
 
         if ( !$this->getId() ) {
 
-            // On first save, set first index date and time
+            /** @var DdrDiamondSearchModule $oModule */
+            $oModule = oxRegistry::get( 'DdrDiamondSearchModule' );
+
+            // On first save, set first index date and time, shop and language IDs
             $this->ddrdiamondsearch_term2article__ddrfirstindexedat = new oxField( $sDateTime );
+            $this->ddrdiamondsearch_term2article__ddrshopid         = new oxField( $oModule->getShopId() );
+            $this->ddrdiamondsearch_term2article__ddrlangid         = new oxField( (int) $oModule->getLanguageId() );
         }
 
         // Set last indexed date and time
@@ -287,11 +288,11 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
     public function loadRelation( $sTermId, $sArticleId )
     {
         $sQuery = sprintf(
-            "SELECT * FROM `%s` WHERE %s `DDRTERMID` = %s AND `DDRARTICLEID` = %s LIMIT 1",
-            getViewName( 'ddrdiamondsearch_term2article' ),
+            "SELECT * FROM `%s` WHERE %s `DDRARTICLEID` = %s AND `DDRTERMID` = %s LIMIT 1",
+            $this->getCoreTableName(),
             $this->getShopAndLanguageSnippet(),
-            $this->quote( trim( (string) $sTermId ) ),
-            $this->quote( trim( (string) $sArticleId ) )
+            $this->quote( trim( (string) $sArticleId ) ),
+            $this->quote( trim( (string) $sTermId ) )
         );
 
         return $this->assignRecord( $sQuery );
@@ -311,7 +312,7 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
         $sQuery = sprintf(
             "DELETE FROM `%s` WHERE %s `DDRARTICLEID` = %s",
             $this->getShopAndLanguageSnippet(),
-            getViewName( 'ddrdiamondsearch_term2article' ),
+            $this->getCoreTableName(),
             $oDb->quote( trim( (string) $sArticleId ) )
         );
 
@@ -324,7 +325,7 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
      * Find article OXIDs by search terms related to the articles.
      * Additionally search by default clauses, sets sort and pagination.
      *
-     * @todo: Split to more private methods: queries building moves as separate methods.
+     * @nice2have: For only parent search option - select IF empty parentID - OXID else parentID
      *
      * @param array  $aTerms
      * @param string $sInitialSearchCat
@@ -351,48 +352,19 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
         $blLikeMatch = (bool) $oModule->getSetting( 'ByPart' );
         $blOrClause  = (bool) $oModule->getSetting( 'FindAll' );
 
+        $sAdditionalClause = $this->_getSearchClauseSnippet(
+                                  $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer
+        );
+
         if ( ( count( $aTerms ) == 1 ) or $blOrClause ) {
 
             // One search term clause or the case to find article matching at leas one of terms
-            $sQuery = sprintf(
-                "SELECT DISTINCT `t2a`.`DDRARTICLEID` FROM `%s` AS `t`
-                     LEFT JOIN `%s` AS `t2a` ON (`t2a`.`DDRTERMID` = `t`.`OXID`)
-                WHERE %s %s `t`.`DDRTERM` IN (%s)%s",
-                getViewName( 'ddrdiamondsearch_terms' ),
-                getViewName( 'ddrdiamondsearch_term2article' ),
-                $this->getShopAndLanguageSnippet( 't2a' ),
-                $this->getShopAndLanguageSnippet( 't' ),
-                implode( ', ', $this->_quoteTerms( $aTerms ) ),
-                $this->_getSearchClauseSnippet( $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer )
-            );
-
+            $sQuery         = $this->_getOrLogicSearchQuery( $aTerms, $sAdditionalClause );
             $sMainTableName = 't2a';
         } else {
 
             // A case when there are mor than one search term and search must find articles matching all the terms
-            $aQueries = array();
-
-            foreach ( $aTerms as $sTerm ) {
-                $aQueries[] = sprintf(
-                    "SELECT `t2a`.`DDRARTICLEID`, `t2a`.`DDRRELEVANCE` FROM `%s` AS `t`
-                         LEFT JOIN `%s` AS `t2a` ON (`t2a`.`DDRTERMID` = `t`.`OXID`)
-                    WHERE %s %s `t`.`DDRTERM` %s%s",
-                    getViewName( 'ddrdiamondsearch_terms' ),
-                    getViewName( 'ddrdiamondsearch_term2article' ),
-                    $this->getShopAndLanguageSnippet( 't2a' ),
-                    $this->getShopAndLanguageSnippet( 't' ),
-                    ( $blLikeMatch ? " LIKE " . $this->quote( $sTerm . "%" ) : " = " . $this->quote( $sTerm ) ),
-                    $this->_getSearchClauseSnippet(
-                         $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer
-                    )
-                );
-            }
-            $sQuery = sprintf(
-                "SELECT `u`.* FROM ( (%s) ) AS `u` GROUP BY `DDRARTICLEID` HAVING COUNT(*) >= %d",
-                implode( ") UNION ALL (", $aQueries ),
-                count( $aTerms )
-            );
-
+            $sQuery         = $this->_getAndLogicSearchClause( $aTerms, $sAdditionalClause, $blLikeMatch );
             $sMainTableName = 'u';
         }
 
@@ -418,8 +390,8 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
             "SELECT COUNT(`t2a`.`DDRARTICLEID`) AS `TIMES_USED`
             FROM %s AS `t` LEFT JOIN %s AS `t2a` ON (`t2a`.`DDRTERMID` = `t`.`OXID`)
             WHERE %s %s `t`.`DDRTERM` = %s",
-            getViewName( 'ddrdiamondsearch_terms' ),
-            getViewName( 'ddrdiamondsearch_term2article' ),
+            $this->getTermsTable(),
+            $this->getCoreTableName(),
             $this->getShopAndLanguageSnippet( 't2a' ),
             $this->getShopAndLanguageSnippet( 't' ),
             $this->quote( $sTerm )
@@ -428,6 +400,63 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
         return (int) $oDb->getOne( $sQuery );
     }
 
+
+    /**
+     * Get search query for single term or for OR-logic multi-term search.
+     *
+     * @param array  $aTerms
+     * @param string $sAdditionalClause
+     *
+     * @return string
+     */
+    protected function _getOrLogicSearchQuery( array $aTerms, $sAdditionalClause )
+    {
+        return sprintf(
+            "SELECT DISTINCT `t2a`.`DDRARTICLEID` FROM `%s` AS `t`
+                 LEFT JOIN `%s` AS `t2a` ON (`t2a`.`DDRTERMID` = `t`.`OXID`)
+            WHERE %s %s `t`.`DDRTERM` IN (%s)%s",
+            $this->getTermsTable(),
+            $this->getCoreTableName(),
+            $this->getShopAndLanguageSnippet( 't2a' ),
+            $this->getShopAndLanguageSnippet( 't' ),
+            implode( ', ', $this->_quoteTerms( $aTerms ) ),
+            $sAdditionalClause
+        );
+    }
+
+    /**
+     * Get search query for AND-logic multi-term search.
+     *
+     * @param array  $aTerms
+     * @param string $sAdditionalClause
+     * @param bool   $blLikeMatch
+     *
+     * @return string
+     */
+    protected function _getAndLogicSearchClause( array $aTerms, $sAdditionalClause, $blLikeMatch )
+    {
+        $aQueries = array();
+
+        foreach ( $aTerms as $sTerm ) {
+            $aQueries[] = sprintf(
+                "SELECT `t2a`.`DDRARTICLEID`, `t2a`.`DDRRELEVANCE` FROM `%s` AS `t`
+                     LEFT JOIN `%s` AS `t2a` ON (`t2a`.`DDRTERMID` = `t`.`OXID`)
+                WHERE %s %s `t`.`DDRTERM` %s%s",
+                $this->getTermsTable(),
+                $this->getCoreTableName(),
+                $this->getShopAndLanguageSnippet( 't2a' ),
+                $this->getShopAndLanguageSnippet( 't' ),
+                ( $blLikeMatch ? " LIKE " . $this->quote( $sTerm . "%" ) : " = " . $this->quote( $sTerm ) ),
+                $sAdditionalClause
+            );
+        }
+
+        return sprintf(
+            "SELECT `u`.* FROM ( (%s) ) AS `u` GROUP BY `DDRARTICLEID` HAVING COUNT(*) >= %d",
+            implode( ") UNION ALL (", $aQueries ),
+            count( $aTerms )
+        );
+    }
 
     /**
      * Compiles search query clauses for category, vendor and manufacturer.
@@ -503,6 +532,16 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
         }
 
         return $aTerms;
+    }
+
+    /**
+     * Get terms table name.
+     *
+     * @return string
+     */
+    protected function getTermsTable()
+    {
+        return 'ddrdiamondsearch_terms';
     }
 
 

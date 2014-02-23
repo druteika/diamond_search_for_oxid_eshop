@@ -30,7 +30,7 @@
                     <td><strong>[{oxmultilang ident="DDR_DIAMONDSEARCH_MONITOR_EEPEONLY"}]&nbsp;</strong></td>
                 </tr>
             </tbody>
-            [{*TODO: Add more stats<thead>
+            [{*nice2have: Add more stats<thead>
                 <tr>
                     <th rowspan="2">[{oxmultilang ident="DDR_DIAMONDSEARCH_MONITOR_CURRENTSHOP"}]</th>
                 </tr>

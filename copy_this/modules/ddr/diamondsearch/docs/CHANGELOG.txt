@@ -2,3 +2,24 @@ Diamond Search change log
 
 ==0.1.0 beta==
  * First module release
+
+==0.2.0 RC1==
+ * Search filters
+    -- Fields configuration allows to set filter option
+    -- Search filters sidebar widget introduced
+    -- Color filter has special colored style for simple color names
+    -- Filter results are stored in session and processed on background
+ * Configurable option - Index on change. Article is indexed immediately on save.
+ * Article extends model support created, fields added to default configuration
+ * Added configurable search statistics saving
+ * Structure changes
+    -- Fields configuration file is now named config.php
+    -- All sample attributes area added to default fields configuration
+    -- Module is now independent of DB views - unlimited multi-shops and languages are supported
+    -- Database tables indexes were optimized for best performance
+    -- Cron script now has more documentation inside comments
+ * Bug fixes:
+    -- Cron script messages format fixed
+    -- Faulty article indexing "trap" fixed
+    -- Save hooks for models are fixed to set required fields on firs save only
+    -- Other minor fixes

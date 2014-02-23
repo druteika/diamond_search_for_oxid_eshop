@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -17,6 +17,8 @@
 /**
  * Class DdrDiamondSearchOxArticle.
  * Extends oxArticleList model.
+ *
+ * @see oxArticleList
  */
 class DdrDiamondSearchOxArticleList extends DdrDiamondSearchOxArticleList_parent
 {

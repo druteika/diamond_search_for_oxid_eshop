@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -39,9 +39,10 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
                 $oArticle = oxNew( 'DdrDiamondSearchOxArticle' );
 
                 if ( $oToIndex->getArticleId() and $oArticle->load( $oToIndex->getArticleId() ) ) {
-                    $this->_indexArticle( $oArticle );
-                    $oToIndex->delete();
+                    $this->indexArticle( $oArticle );
                 }
+
+                $oToIndex->delete();
             }
         }
     }
@@ -51,9 +52,9 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
      *
      * @param DdrDiamondSearchOxArticle $oArticle
      */
-    protected function _indexArticle( oxArticle $oArticle )
+    public function indexArticle( oxArticle $oArticle )
     {
-        $aTerms       = $oArticle->parseArticleTerms();
+        list( $aTerms, $aFilterValue ) = $oArticle->parseArticleTerms();
         $aUniqueTerms = array();
         $sArticleId   = $oArticle->getId();
 
@@ -89,6 +90,9 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
                 }
             }
         }
+
+        // Save filter value
+        $this->_saveFilterValues( $aFilterValue );
     }
 
     /**
@@ -203,5 +207,38 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
         $oTerm2Article->save();
 
         return $oTerm2Article;
+    }
+
+    /**
+     * For each filter value, try to load and update existing entry or create new one.
+     *
+     * @param array $aFilterValue
+     */
+    protected function _saveFilterValues( $aFilterValue )
+    {
+        if ( !empty( $aFilterValue ) and is_array( $aFilterValue ) ) {
+
+            /** @var DdrDiamondSearchOxSearch $oSearch */
+            $oSearch = oxNew( 'DdrDiamondSearchOxSearch' );
+
+            foreach ( $aFilterValue as $sField => $sValue ) {
+
+                /** @var DdrDiamondSearchFilterValue $oFilterValue */
+                $oFilterValue = oxNew( 'DdrDiamondSearchFilterValue' );
+                $oFilterValue->loadFilterValue( $sField, $sValue );
+
+                if ( !$oFilterValue->getId() ) {
+                    $oFilterValue->setField( $sField );
+                    $oFilterValue->setValue( $sValue );
+                    $oFilterValue->setMultiplicity( 1 );
+                } else {
+                    $oFilterValue->setMultiplicity(
+                                 $oSearch->getSearchArticleCount( $sValue, false, false, false, false )
+                    );
+                }
+
+                $oFilterValue->save();
+            }
+        }
     }
 }

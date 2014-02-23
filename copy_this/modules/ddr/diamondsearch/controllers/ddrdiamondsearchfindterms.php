@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -51,10 +51,12 @@ class DdrDiamondSearchFindTerms extends oxUBase
                 $sTerm = (string) $oTerm->getTerm();
 
                 if ( !empty( $sTerm ) ) {
-                    $aData[] = array(
-                        'label' => sprintf( '%s (%d)', $sTerm, (int) $oTerm->getDiversity() ),
-                        'value' => $sTerm,
-                    );
+                    $aData[] = $blShowHits ?
+                        array(
+                            'label' => sprintf( '%s (%d)', $sTerm, (int) $oTerm->getDiversity() ),
+                            'value' => $sTerm,
+                        ) :
+                        $sTerm;
                 }
             }
         }

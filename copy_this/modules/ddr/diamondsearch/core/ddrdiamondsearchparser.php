@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -52,7 +52,7 @@ class DdrDiamondSearchParser extends oxSuperCfg
                 // Get clean, formatted term value
                 $sTerm = $this->cleanString( $sRawWord );
 
-                if ( !empty( $sTerm ) ) {
+                if ( !empty( $sTerm ) and !in_array( $sTerm, $aTerms ) ) {
                     $aTerms[] = $sTerm;
 
                     // Stop parsing if found terms limit is reached
@@ -88,7 +88,7 @@ class DdrDiamondSearchParser extends oxSuperCfg
     /**
      * Clean string value.
      *
-     * @todo: Use regexps instead of string replaces.
+     * @nice2have: Use regexps instead of string replaces.
      *
      * @param mixed $mValue
      * @param bool  $blEscape

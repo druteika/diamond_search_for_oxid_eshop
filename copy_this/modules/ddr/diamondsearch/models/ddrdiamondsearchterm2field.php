@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -17,10 +17,6 @@
 /**
  * Class DdrDiamondSearchTerm2Field.
  * A model for saving search terms relations to search fields.
- *
- * NOTE: Now only stores relation data.
- *
- * @todo: Implement more functions later, etc. for facet filters.
  */
 class DdrDiamondSearchTerm2Field extends DdrDiamondSearchOxBase
 {
@@ -85,6 +81,7 @@ class DdrDiamondSearchTerm2Field extends DdrDiamondSearchOxBase
      */
     public function save()
     {
+        /** @var DdrDiamondSearchModule $oModule */
         $oModule = oxRegistry::get( 'DdrDiamondSearchModule' );
 
         $this->ddrdiamondsearch_term2field__ddrshopid = new oxField( $oModule->getShopId() );
@@ -105,7 +102,7 @@ class DdrDiamondSearchTerm2Field extends DdrDiamondSearchOxBase
     {
         $sQuery = sprintf(
             "SELECT * FROM `%s` WHERE %s `DDRTERMID` = %s AND `DDRFIELD` = %s LIMIT 1",
-            getViewName( 'ddrdiamondsearch_term2field' ),
+            $this->getCoreTableName(),
             $this->getShopAndLanguageSnippet(),
             $this->quote( trim( (string) $sTermId ) ),
             $this->quote( trim( (string) $sField ) )

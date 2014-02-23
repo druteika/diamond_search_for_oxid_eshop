@@ -15,10 +15,10 @@
  */
 
 /**
- * Class DdrDiamondSearchTermList.
- * A list model for search term objects.
+ * Class DdrDiamondSearchFilterValueList.
+ * A list model for filter values.
  */
-class DdrDiamondSearchTermList extends oxList
+class DdrDiamondSearchFilterValueList extends oxList
 {
 
     /**
@@ -26,27 +26,20 @@ class DdrDiamondSearchTermList extends oxList
      *
      * @var string
      */
-    protected $_sObjectsInListName = 'DdrDiamondSearchTerm';
+    protected $_sObjectsInListName = 'DdrDiamondSearchFilterValue';
 
 
     /**
-     * Find terms starting with given argument.
-     *
-     * @param int $iLimit
+     * Load all filter values.
      *
      * @return int Found entries count.
      */
-    public function search( $sTermLike, $iLimit = 0 )
+    public function loadAll()
     {
         $sQuery = sprintf(
-            "SELECT * FROM `%s`
-            WHERE %s `DDRTERM` LIKE %s
-            ORDER BY `DDRDIVERSITY` DESC, `DDRTIMESSEARCHEDAALONE` DESC, `DDRTIMESSEARCHED` DESC, `DDRTERM` ASC
-            %s",
+            "SELECT * FROM `%s` WHERE %s",
             $this->getBaseObject()->getCoreTableName(),
-            oxRegistry::get( 'DdrDiamondSearchOxBase' )->getShopAndLanguageSnippet(),
-            oxDb::getDb()->quote( $sTermLike . '%' ),
-            ( !empty( $iLimit ) ? "LIMIT " . (int) $iLimit : "" )
+            oxRegistry::get( 'DdrDiamondSearchOxBase' )->getShopAndLanguageSnippet( '', false )
         );
 
         $this->selectString( $sQuery );

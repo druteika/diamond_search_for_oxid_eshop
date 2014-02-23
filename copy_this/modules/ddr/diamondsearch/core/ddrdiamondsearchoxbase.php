@@ -4,7 +4,7 @@
  * Class DdrDiamondSearchOxBase.
  * Additional oxBase layer implementing common reusable Diamond search models features.
  *
- * @todo: Implement common getters and setters and use in models.
+ * @nice2have: Implement common getters and setters and use in models.
  */
 class DdrDiamondSearchOxBase extends oxBase
 {
@@ -13,10 +13,11 @@ class DdrDiamondSearchOxBase extends oxBase
      * Compiles an SQL query where clause snippet for current active shop and language.
      *
      * @param string $sTable
+     * @param bool $blTailingAnd
      *
      * @return string
      */
-    public function getShopAndLanguageSnippet( $sTable = '' )
+    public function getShopAndLanguageSnippet( $sTable = '', $blTailingAnd = true )
     {
         /** @var DdrDiamondSearchModule $oModule */
         $oModule = oxRegistry::get( 'DdrDiamondSearchModule' );
@@ -26,11 +27,12 @@ class DdrDiamondSearchOxBase extends oxBase
         $sTable = !empty( $sTable ) ? "`" . $sTable . "`." : "";
 
         return sprintf(
-            " %s`DDRSHOPID` = %s AND %s`DDRLANGID` = %s AND ",
+            " %s`DDRSHOPID` = %s AND %s`DDRLANGID` = %s%s ",
             $sTable,
             $oDb->quote( $oModule->getShopId() ),
             $sTable,
-            $oDb->quote( $oModule->getLanguageId() )
+            $oDb->quote( $oModule->getLanguageId() ),
+            ( !empty($blTailingAnd) ? " AND" : "" )
         );
     }
 

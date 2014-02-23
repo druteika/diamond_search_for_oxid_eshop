@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -18,6 +18,8 @@
 /**
  * Class DdrDiamondSearchOxSearch
  * Extended oxSearch model.
+ *
+ * @see oxSearch
  */
 class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
 {
@@ -79,16 +81,18 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
      * @param mixed $sInitialSearchCat          Initial category to search in.
      * @param mixed $sInitialSearchVendor       Initial vendor to search for.
      * @param mixed $sInitialSearchManufacturer Initial Manufacturer to search for.
+     * @param bool  $blSearchFromSession        Should the search append search values from session.
      *
      * @return int
      */
     public function getSearchArticleCount( $sSearchParamForQuery = false, $sInitialSearchCat = false,
-                                           $sInitialSearchVendor = false, $sInitialSearchManufacturer = false )
+                                           $sInitialSearchVendor = false, $sInitialSearchManufacturer = false,
+                                           $blSearchFromSession = true )
     {
         // Search articles and get found articles count
         $iCnt = (int) $this->_getSearchArticles(
                            $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor,
-                           $sInitialSearchManufacturer, false, true
+                           $sInitialSearchManufacturer, false, true, $blSearchFromSession
         );
 
         if ( $iCnt > 0 ) {
@@ -116,13 +120,26 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
      * @param mixed $sInitialSearchManufacturer
      * @param mixed $sSortBy
      * @param bool  $blCountOnly
+     * @param bool  $blSearchFromSession
      *
      * return mixed
      */
     protected function _getSearchArticles( $sSearchParamForQuery = false, $sInitialSearchCat = false,
                                            $sInitialSearchVendor = false, $sInitialSearchManufacturer = false,
-                                           $sSortBy = false, $blCountOnly = false )
+                                           $sSortBy = false, $blCountOnly = false, $blSearchFromSession = true )
     {
+        $sSearchParamForQuery = trim( (string) $sSearchParamForQuery );
+
+        /** @var DdrDiamondSearchModule $oModule */
+        $oModule = oxRegistry::get( 'DdrDiamondSearchModule' );
+
+        // Add filter values from session to search query
+        $aFilter = (array) $oModule->getSelectedFilterValues();
+
+        if ( !empty( $blSearchFromSession ) and !empty( $aFilter ) ) {
+            $sSearchParamForQuery .= ' ' . implode( ' ', $oModule->getSelectedFilterValues() );
+        }
+
         if ( empty( $sSearchParamForQuery ) ) {
             return null;
         }
@@ -130,11 +147,7 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
         // Load parser helper and find all search terms inside search query string
         /** var DdrDiamondSearchParser $oParser */
         $oParser = oxNew( 'DdrDiamondSearchParser' );
-        $aTerms  = (array) $oParser->parse(
-                                   $sSearchParamForQuery,
-                                   (int) oxRegistry::get( 'DdrDiamondSearchModule' )->getSetting( 'MaxWords' ),
-                                   false
-        );
+        $aTerms  = (array) $oParser->parse( $sSearchParamForQuery, (int) $oModule->getSetting( 'MaxWords' ), false );
 
         if ( !empty( $aTerms ) ) {
 
@@ -157,15 +170,15 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
             $oTerm2Article = oxNew( 'DdrDiamondSearchTerm2Article' );
 
             $aIds = $oTerm2Article->search(
-                                  $aTerms, (string) $sInitialSearchCat, (string) $sInitialSearchVendor,
+                                  $aTerms, trim( (string) $sInitialSearchCat ), (string) $sInitialSearchVendor,
                                   (string) $sInitialSearchManufacturer, (string) $this->_mapOrderBy( $sSortBy ),
                                   $iPage, $iLimit, $blCountOnly
             );
 
-            // TODO:
             // Update search terms field for search statistics
-            //$this->_updateTermsStatistics( $aTerms );
-            //$blSearchedByOneTerm = ( count( $aTerms ) === 1 );
+            if ( empty( $blCountOnly ) and (bool) $oModule->getSetting( 'SaveStats' ) ) {
+                $this->_updateTermsStatistics( $aTerms );
+            }
         }
 
         return $blCountOnly ? count( $aIds ) : $aIds;
@@ -199,6 +212,40 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
         }
 
         return $sSortBy;
+    }
+
+    /**
+     * Update terms search count statistics.
+     *
+     * @param array $aTerms
+     *
+     * @return bool
+     */
+    protected function _updateTermsStatistics( $aTerms )
+    {
+        if ( empty( $aTerms ) or !is_array( $aTerms ) ) {
+            return false;
+        }
+
+        $blSearchedByOneTerm = ( count( $aTerms ) === 1 );
+
+        foreach ( $aTerms as $sTerm ) {
+
+            /** @var DdrDiamondSearchTerm $oTerm */
+            $oTerm = oxNew( 'DdrDiamondSearchTerm' );
+
+            if ( $oTerm->loadByTerm( $sTerm ) and $oTerm->getId() ) {
+                $oTerm->addTimesSearched();
+
+                if ( $blSearchedByOneTerm ) {
+                    $oTerm->addTimesSearchedAlone();
+                }
+
+                $oTerm->save();
+            }
+        }
+
+        return true;
     }
 
 

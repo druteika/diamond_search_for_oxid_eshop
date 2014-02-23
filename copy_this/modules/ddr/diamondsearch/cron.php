@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -55,6 +55,21 @@
  *     php cron.php en oxbaseshop 1
  *
  * --------------------------------------------------------------------------------------------------------------------
+ *
+ * Cron task configuration on most linux/unix systems:
+ *
+ * 1. Open user cron tasks for editing with command:
+ *
+ *     crontbab -e
+ *
+ * 2. Add a task to execute the corn script periodically.
+ *    Example is:
+ */
+//     */5 * * * * php /full/path/to/oxid/modules/ddr/diamondsearch/cron.php
+/*
+ *  In the example above will script will be auto-executed each 5 minutes.
+ *
+ * -------------------------------------------------------------------------------------------------------------------
  */
 
 /**
@@ -73,7 +88,8 @@ $sLanguage = !empty( $argv[1] ) ? mb_strtolower( trim( (string) $argv[1] ), 'UTF
 $iLanguage = array_search( $sLanguage, $oLanguage->getLanguageIds() );
 
 if ( $iLanguage === false ) {
-    exit ( 'Invalid language abbreviation. Available languages are: ' . implode( ', ', $oLanguage->getLanguageIds() ) );
+    exit ( 'Invalid language abbreviation. Available languages are: ' .
+           implode( ', ', $oLanguage->getLanguageIds() ) . PHP_EOL );
 }
 
 // Get sub-shop ID
@@ -81,7 +97,8 @@ $oConfig = oxRegistry::getConfig();
 $sShopId = !empty( $argv[2] ) ? trim( (string) $argv[2] ) : $oConfig->getShopId();
 
 if ( !in_array( $sShopId, $oConfig->getShopIds() ) ) {
-    exit ( 'Invalid shop ID. Available sub-shops are: ' . implode( ', ', $oConfig->getShopIds() ) );
+    exit ( 'Invalid shop ID. Available sub-shops are: ' .
+           implode( ', ', $oConfig->getShopIds() ) . PHP_EOL );
 }
 
 // Get re-indexing flag
@@ -114,4 +131,4 @@ if ( $blReindexAll ) {
 $oIndexer = oxNew( 'DdrDiamondSearchIndexer' );
 $oIndexer->run( (int) trim( $oModule->getSetting( 'CronSize' ) ) );
 
-exit( 'OK' );
+exit( 'OK' . PHP_EOL );

@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -60,10 +60,9 @@ class DdrDiamondSearchToIndexList extends oxList
         }
 
         $sQuery = sprintf(
-            "SELECT * FROM `%s` WHERE %s `DDRSHOPID` = %s ORDER BY `DDRTIMESTAMP` ASC LIMIT %d",
-            getViewName( 'ddrdiamondsearch_toindex' ),
-            oxRegistry::get( 'DdrDiamondSearchOxBase' )->getShopAndLanguageSnippet(),
-            oxDb::getDb()->quote( oxRegistry::get( 'DdrDiamondSearchModule' )->getShopId() ),
+            "SELECT * FROM `%s` WHERE %s ORDER BY `DDRTIMESTAMP` ASC LIMIT %d",
+            $this->getTable(),
+            oxRegistry::get( 'DdrDiamondSearchOxBase' )->getShopAndLanguageSnippet( '', false ),
             (int) $iBundleToIndexSize
         );
 
@@ -87,7 +86,7 @@ class DdrDiamondSearchToIndexList extends oxList
         // Remove any articles left from index queue
         $sQuery = sprintf(
             "DELETE FROM `%s` WHERE `OXSHOPID` = %s",
-            getViewName( 'ddrdiamondsearch_toindex' ),
+            $this->getTable(),
             $oDb->quote( $sShopId )
         );
 
@@ -100,7 +99,7 @@ class DdrDiamondSearchToIndexList extends oxList
             . "  `a`.`OXID` AS `DDRARTICLEID`"
             . " FROM `%s` AS `a`"
             . " WHERE `a`.`OXSHOPID` = %s  AND `a`.`OXACTIVE` = 1",
-            getViewName( 'ddrdiamondsearch_toindex' ),
+            $this->getTable(),
             (int) $iLanguageId,
             (int) $iLanguageId,
             'oxarticles',
@@ -110,5 +109,16 @@ class DdrDiamondSearchToIndexList extends oxList
         $oDb->execute( $sQuery );
 
         return $oDb->Affected_Rows();
+    }
+
+
+    /**
+     * Get related model database table name.
+     *
+     * @return string
+     */
+    protected function getTable()
+    {
+        return $this->getBaseObject()->getCoreTableName();
     }
 }

@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.1.0 beta
+ * @version       0.2.0 RC1
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -165,6 +165,30 @@ class DdrDiamondSearchModule extends oxModule
         foreach ( $aLanguages as $oLanguage ) {
             $oToIndexList->addAllArticles( (int) $oLanguage->id );
         }
+    }
+
+    /**
+     * Get set filter values from session.
+     *
+     * @return array
+     */
+    public function getSelectedFilterValues()
+    {
+        $aFilter = array();
+
+        $oSession = oxRegistry::getSession();
+
+        // Init session
+        if ( $oSession->getId() ) {
+            $oSession->start();
+        }
+
+        // Get existing filters
+        if ( $oSession->getId() and $oSession->hasVariable( 'ddrdiamondsearchfilter' ) ) {
+            $aFilter = (array) $oSession->getVariable( 'ddrdiamondsearchfilter' );
+        }
+
+        return $aFilter;
     }
 
     /**
