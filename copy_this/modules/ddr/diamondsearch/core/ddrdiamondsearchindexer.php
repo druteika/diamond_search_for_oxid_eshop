@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.0 RC1
+ * @version       0.2.1 RC2
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -198,7 +198,7 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
         $oTerm2Article->setVendorId( $oArticle->oxarticles__oxvendorid->value );
         $oTerm2Article->setManufacturerId( $oArticle->oxarticles__oxmanufacturerid->value );
         $oTerm2Article->setTitle( $oArticle->oxarticles__oxtitle->value );
-        $oTerm2Article->setPrice( $oArticle->oxarticles__oxprice->value );
+        $oTerm2Article->setPrice( $oArticle->getVarMinPrice()->getPrice() );
 
         // Set term priority related parameters for the article
         $oTerm2Article->setMultiplicity( (int) $iMultiplicity );

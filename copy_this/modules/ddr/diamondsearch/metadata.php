@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.0 RC1
+ * @version       0.2.1 RC2
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -27,7 +27,7 @@ $aModule = array(
     'title'       => 'Diamond Search CE',
     'description' => 'Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!',
     'thumbnail'   => 'out/pictures/ddrdiamondsearch.png',
-    'version'     => '0.2.0 RC1',
+    'version'     => '0.2.1 RC2',
     'author'      => 'Dmitrijus Druteika',
     'url'         => 'http://www.druteika.lt/#diamond_search_for_oxid_eshop',
     'email'       => 'dmitrijus.druteika@gmail.com',

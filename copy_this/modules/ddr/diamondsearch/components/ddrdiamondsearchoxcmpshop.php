@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.0 RC1
+ * @version       0.2.1 RC2
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -29,24 +29,27 @@ class DdrDiamondSearchOxcmpShop extends DdrDiamondSearchOxcmpShop_parent
      *
      * @return mixed
      */
-    public function render()
+    public function init()
     {
         /** @var DdrDiamondSearchIndexer $oIndexer */
         $oIndexer = oxNew( 'DdrDiamondSearchIndexer' );
         $oIndexer->run();
 
-        return $this->_DdrDiamondSearchOxcmpShop_render_parent();
+        // Force session start
+        oxRegistry::getConfig()->setConfigParam( 'blForceSessionStart', true );
+
+        return $this->_DdrDiamondSearchOxcmpShop_init_parent();
     }
 
     /**
      * Parent `render` call.
      *
+     * @codeCoverageIgnore
+     *
      * @return mixed
      */
-    protected function _DdrDiamondSearchOxcmpShop_render_parent()
+    protected function _DdrDiamondSearchOxcmpShop_init_parent()
     {
-        // @codeCoverageIgnoreStart
-        return parent::render();
-        // @codeCoverageIgnoreEnd
+        parent::init();
     }
 }

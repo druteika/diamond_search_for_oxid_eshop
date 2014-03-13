@@ -1,7 +1,8 @@
 Diamond Search change log
 
-==0.1.0 beta==
- * First module release
+==0.2.1 RC2==
+ * Fixed sort by price and title
+ * Fixed session handling for filters functionality
 
 ==0.2.0 RC1==
  * Search filters
@@ -23,3 +24,6 @@ Diamond Search change log
     -- Faulty article indexing "trap" fixed
     -- Save hooks for models are fixed to set required fields on firs save only
     -- Other minor fixes
+
+==0.1.0 beta==
+ * First module release

@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.0 RC1
+ * @version       0.2.1 RC2
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -501,7 +501,7 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
     {
         return sprintf(
             " ORDER BY %s`%s`.`DDRRELEVANCE` DESC LIMIT %d, %d",
-            ( !empty( $sSortBy ) ? $sSortBy . ", " : "" ), // TODO: Sort has some bugs...
+            ( !empty( $sSortBy ) ? $sSortBy . ", " : "" ),
             (string) $sTable,
             ( (int) $iPage * (int) $iLimit ),
             (int) $iLimit

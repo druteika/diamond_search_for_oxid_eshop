@@ -1,4 +1,4 @@
-Diamond Search CE RC1
+Diamond Search CE RC2
 =====================
 
 Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
@@ -18,8 +18,8 @@ Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
  - Personalized auto-complete hints (EE, PE editions only)
  - Ultimate cache mechanism for extreme performance (EE, PE editions only)
  
-What's new in v0.2.0 RC1
-------------------------
+What's new in v0.2.x
+--------------------
  - Search filters
     - Fields configuration allows to set filter option
     - Search filters sidebar widget introduced
@@ -38,6 +38,7 @@ What's new in v0.2.0 RC1
     - Cron script messages format fixed
     - Faulty article indexing "trap" fixed
     - Save hooks for models are fixed to set required fields on firs save only
+	- Sorting by price and title fixed
     - Other minor fixes
 
 How to install the module

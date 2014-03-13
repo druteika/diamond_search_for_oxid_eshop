@@ -64,4 +64,3 @@
             return false;
         }
     });"}]
-[{*TODO: Test and fix on Chrome, IE10/9/8*}]
