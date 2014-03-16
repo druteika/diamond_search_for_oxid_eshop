@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.1 RC2
+ * @version       0.2.2 RC3
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -311,8 +311,8 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
         $oDb    = oxDb::getDb();
         $sQuery = sprintf(
             "DELETE FROM `%s` WHERE %s `DDRARTICLEID` = %s",
-            $this->getShopAndLanguageSnippet(),
             $this->getCoreTableName(),
+            $this->getShopAndLanguageSnippet(),
             $oDb->quote( trim( (string) $sArticleId ) )
         );
 
@@ -439,8 +439,8 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
 
         foreach ( $aTerms as $sTerm ) {
             $aQueries[] = sprintf(
-                "SELECT `t2a`.`DDRARTICLEID`, `t2a`.`DDRRELEVANCE` FROM `%s` AS `t`
-                     LEFT JOIN `%s` AS `t2a` ON (`t2a`.`DDRTERMID` = `t`.`OXID`)
+                "SELECT `t2a`.`DDRARTICLEID`, `t2a`.`DDRTITLE`, `t2a`.`DDRPRICE`, `t2a`.`DDRRELEVANCE`
+                     FROM `%s` AS `t` LEFT JOIN `%s` AS `t2a` ON (`t2a`.`DDRTERMID` = `t`.`OXID`)
                 WHERE %s %s `t`.`DDRTERM` %s%s",
                 $this->getTermsTable(),
                 $this->getCoreTableName(),
@@ -501,7 +501,7 @@ class DdrDiamondSearchTerm2Article extends DdrDiamondSearchOxBase
     {
         return sprintf(
             " ORDER BY %s`%s`.`DDRRELEVANCE` DESC LIMIT %d, %d",
-            ( !empty( $sSortBy ) ? $sSortBy . ", " : "" ),
+            ( !empty( $sSortBy ) ? sprintf( "`%s`.%s, ", $sTable, $sSortBy ) : "" ),
             (string) $sTable,
             ( (int) $iPage * (int) $iLimit ),
             (int) $iLimit

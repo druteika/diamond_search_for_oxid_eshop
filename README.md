@@ -39,6 +39,7 @@ What's new in v0.2.x
     - Faulty article indexing "trap" fixed
     - Save hooks for models are fixed to set required fields on firs save only
 	- Sorting by price and title fixed
+	- Older versions support added
     - Other minor fixes
 
 How to install the module
