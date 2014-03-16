@@ -8,7 +8,7 @@ Dmitrijus Druteika
 ddr
 
 ==Version==
-0.2.1 RC2
+0.2.2 RC3
 
 ==Link==
 http://www.druteika.lt/#diamond_search_for_oxid_eshop

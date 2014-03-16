@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.1 RC2
+ * @version       0.2.2 RC3
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -201,9 +201,9 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
         }
 
         $sSortByMap = array(
-            'OXTITLE'       => '`t2a`.`DDRTITLE`',
-            'OXPRICE'       => '`t2a`.`DDRPRICE`',
-            'OXVARMINPRICE' => '`t2a`.`DDRPRICE`',
+            'OXTITLE'       => '`DDRTITLE`',
+            'OXPRICE'       => '`DDRPRICE`',
+            'OXVARMINPRICE' => '`DDRPRICE`',
         );
 
         $sSortBy = isset( $sSortByMap[$aSort[0]] ) ? $sSortByMap[$aSort[0]] : '';

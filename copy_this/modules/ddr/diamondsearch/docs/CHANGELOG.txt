@@ -1,5 +1,12 @@
 Diamond Search change log
 
+==0.2.2 RC3==
+ * Fixed re-indexing queries bugs
+ * Added active language check on full re-indexing
+ * Rolled back shop component hook to render method
+ * Fixed sort part in search queries
+ * Added fixes for older shop versions support
+
 ==0.2.1 RC2==
  * Fixed sort by price and title
  * Fixed session handling for filters functionality

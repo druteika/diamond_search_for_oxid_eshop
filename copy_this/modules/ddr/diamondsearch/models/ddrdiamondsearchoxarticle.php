@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.1 RC2
+ * @version       0.2.2 RC3
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -191,9 +191,28 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
                 break;
 
             case 'oxattribute':
+
+                //@todo: Move this logic to separate method.
+                $oObject         = null;
                 $oAttributesList = $this->getAttributes();
                 $aAttributesList = !empty( $oAttributesList ) ? $oAttributesList->getArray() : array();
-                $oObject         = !empty( $aAttributesList[$sId] ) ? $aAttributesList[$sId] : null;
+
+                foreach ( $aAttributesList as $sListId => $oAttribute ) {
+                    if ( $sListId == $sId ) {
+
+                        // Newer versions case
+                        $oObject = $oAttribute;
+                        break;
+                    } elseif ( isset( $oAttribute->oxattribute__oxattrid->value ) and
+                               ( $oAttribute->oxattribute__oxattrid->value == $sId )
+                    ) {
+
+                        // Case for older 4.7.x version
+                        $oObject = $oAttribute;
+                        break;
+                    }
+                }
+
                 break;
 
             default:
