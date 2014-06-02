@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -42,8 +42,8 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
     {
         // Search articles and get found articles IDs
         $aIds = (array) $this->_getSearchArticles(
-                             $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor,
-                             $sInitialSearchManufacturer, $sSortBy
+            $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor,
+            $sInitialSearchManufacturer, $sSortBy
         );
 
         /** @var oxArticleList $oArtList */
@@ -67,8 +67,8 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
 
             // Fallback to default search
             return $this->_DdrDiamondSearchOxSearch_getSearchArticles_parent(
-                        $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor,
-                        $sInitialSearchManufacturer, $sSortBy
+                $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor,
+                $sInitialSearchManufacturer, $sSortBy
             );
         }
     }
@@ -91,8 +91,8 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
     {
         // Search articles and get found articles count
         $iCnt = (int) $this->_getSearchArticles(
-                           $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor,
-                           $sInitialSearchManufacturer, false, true, $blSearchFromSession
+            $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor,
+            $sInitialSearchManufacturer, false, true, $blSearchFromSession
         );
 
         if ( $iCnt > 0 ) {
@@ -105,7 +105,7 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
 
             // Fallback to default count search
             return $this->_DdrDiamondSearchOxSearch_getSearchArticleCount_parent(
-                        $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer
+                $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer
             );
         }
     }
@@ -137,7 +137,7 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
         $aFilter = (array) $oModule->getSelectedFilterValues();
 
         if ( !empty( $blSearchFromSession ) and !empty( $aFilter ) ) {
-            $sSearchParamForQuery .= ' ' . implode( ' ', $oModule->getSelectedFilterValues() );
+            $sSearchParamForQuery .= ' ' . implode( ' ', $aFilter );
         }
 
         if ( empty( $sSearchParamForQuery ) ) {
@@ -170,9 +170,9 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
             $oTerm2Article = oxNew( 'DdrDiamondSearchTerm2Article' );
 
             $aIds = $oTerm2Article->search(
-                                  $aTerms, trim( (string) $sInitialSearchCat ), (string) $sInitialSearchVendor,
-                                  (string) $sInitialSearchManufacturer, (string) $this->_mapOrderBy( $sSortBy ),
-                                  $iPage, $iLimit, $blCountOnly
+                $aTerms, trim( (string) $sInitialSearchCat ), (string) $sInitialSearchVendor,
+                (string) $sInitialSearchManufacturer, (string) $this->_mapOrderBy( $sSortBy ),
+                $iPage, $iLimit, $blCountOnly
             );
 
             // Update search terms field for search statistics
@@ -253,6 +253,8 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
     /**
      * Parent `getSearchArticles` call.
      *
+     * @codeCoverageIgnore
+     *
      * @param mixed $sSearchParamForQuery
      * @param mixed $sInitialSearchCat
      * @param mixed $sInitialSearchVendor
@@ -267,16 +269,16 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
                                                                            $sInitialSearchManufacturer = false,
                                                                            $sSortBy = false )
     {
-        // @codeCoverageIgnoreStart
         return parent::getSearchArticles(
-                     $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer,
-                     $sSortBy
+            $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer,
+            $sSortBy
         );
-        // @codeCoverageIgnoreEnd
     }
 
     /**
      * Parent `getSearchArticleCount` call.
+     *
+     * @codeCoverageIgnore
      *
      * @param mixed $sSearchParamForQuery
      * @param mixed $sInitialSearchCat
@@ -290,10 +292,8 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
                                                                                $sInitialSearchVendor = false,
                                                                                $sInitialSearchManufacturer = false )
     {
-        // @codeCoverageIgnoreStart
         return parent::getSearchArticleCount(
-                     $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer
+            $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor, $sInitialSearchManufacturer
         );
-        // @codeCoverageIgnoreEnd
     }
 }

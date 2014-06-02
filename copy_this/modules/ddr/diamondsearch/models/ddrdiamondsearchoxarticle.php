@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -191,28 +191,7 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
                 break;
 
             case 'oxattribute':
-
-                //@todo: Move this logic to separate method.
-                $oObject         = null;
-                $oAttributesList = $this->getAttributes();
-                $aAttributesList = !empty( $oAttributesList ) ? $oAttributesList->getArray() : array();
-
-                foreach ( $aAttributesList as $sListId => $oAttribute ) {
-                    if ( $sListId == $sId ) {
-
-                        // Newer versions case
-                        $oObject = $oAttribute;
-                        break;
-                    } elseif ( isset( $oAttribute->oxattribute__oxattrid->value ) and
-                               ( $oAttribute->oxattribute__oxattrid->value == $sId )
-                    ) {
-
-                        // Case for older 4.7.x version
-                        $oObject = $oAttribute;
-                        break;
-                    }
-                }
-
+                $oObject = $this->_getAttributeObject( $sId );
                 break;
 
             default:
@@ -283,19 +262,54 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
     }
 
     /**
+     * Get article attribute object by attribute ID.
+     *
+     * @param string $sAttributeId
+     *
+     * @return null|oxAttribute
+     */
+    protected function _getAttributeObject( $sAttributeId )
+    {
+        $oObject         = null;
+        $oAttributesList = $this->getAttributes();
+        $aAttributesList = !empty( $oAttributesList ) ? $oAttributesList->getArray() : array();
+
+        foreach ( $aAttributesList as $sListId => $oAttribute ) {
+            if ( $sListId == $sAttributeId ) {
+
+                // Newer versions case
+                $oObject = $oAttribute;
+                break;
+            } elseif ( isset( $oAttribute->oxattribute__oxattrid->value ) and
+                       ( $oAttribute->oxattribute__oxattrid->value == $sAttributeId )
+            ) {
+
+                // Case for older 4.7.x version
+                $oObject = $oAttribute;
+                break;
+            }
+        }
+
+        return $oObject;
+    }
+
+
+    /**
      * Parent `save` call.
+     *
+     * @codeCoverageIgnore
      *
      * @return mixed
      */
     protected function _DdrDiamondSearchOxArticle_save_parent()
     {
-        //@CodeCoverageIgnoreStart
         return parent::save();
-        //@CodeCoverageIgnoreEnd
     }
 
     /**
      * Parent `delete` call.
+     *
+     * @codeCoverageIgnore
      *
      * @param null|string $sId
      *
@@ -303,8 +317,6 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
      */
     protected function _DdrDiamondSearchOxArticle_delete_parent( $sId = null )
     {
-        //@CodeCoverageIgnoreStart
         return parent::delete( $sId );
-        //@CodeCoverageIgnoreEnd
     }
 }

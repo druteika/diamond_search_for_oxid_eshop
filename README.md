@@ -1,5 +1,7 @@
-Diamond Search CE RC3
-=====================
+Diamond Search CE
+=================
+
+[Official Website](http://www.druteika.lt/#diamond_search_for_oxid_eshop) | [Diamond Search EE, PE Live Demo!](http://www.druteika.lt/diamond_search_demo/) | [Diamond Search EE, PE on eXchange Store](http://exchange.oxid-esales.com/Shopping-experience/Shop-search/Diamond-Search-EE-PE-0-3-0-Stable-EE-PE-4-7-x-5-0-x-4-8-x-5-1-x.html)
 
 Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
 ------------------------------------------------------------------------------
@@ -8,16 +10,39 @@ Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
  - Search field auto-complete function
  - Configurable search filters
  - Unlimited Multi-shops and multilingual shops support
- - No server configuration, to integrations, no setup or indexing effort - just install the module and activate it!
-   Articles will index for first time and re-index on changes automatically
+ - No server configuration, no integrations, no setup or indexing effort - just install the module and activate it!
+ - Articles will index for first time and re-index on changes automatically
  - Excellent performance even with large amount of articles
  - Easily configurable search options in administration back-end
  - Customize fields to search by, set ranking options, add Your custom fields
- - Unit tests provided (EE, PE editions only)
- - Monitor page with useful search statistics and indexing state (EE, PE editions only)
- - Personalized auto-complete hints (EE, PE editions only)
- - Ultimate cache mechanism for extreme performance (EE, PE editions only)
- 
+ - Lots of useful search settings to match Your needs
+ - Monitor page to track indexing process
+
+What's new in v0.3.x
+--------------------
+ - Price range filter (EE, PE editions only)
+ - New search option - find parent articles only (EE, PE editions only)
+ - Extended monitor page (EE, PE editions only)
+    - More statistics for index contents
+    - Most frequent search terms
+    - Most popular search terms
+    - Configuration options for statistics count and access settings
+ - Personalized search hints in auto-complete (EE, PE editions only)
+    - Stores successful search queries
+    - When searching again suggest saved terms on top of the auto-complete list
+ - Performance Booster (EE, PE editions only)
+    - Module is pre-configured for maximum performance
+    - Optimized indexing and search processes
+      - Database indexes design tested and improved
+      - Queries refactored for best performance
+      - Removed redundant functionality to make indexing faster
+      - Other performance fixes in indexing process
+ - Bug fixes and improvements
+    - Search filters shown only in search page sidebar
+    - Extended hits count display setting implementation
+    - Added monitor page link in administration area main menu
+    - Other minor fixes
+
 What's new in v0.2.x
 --------------------
  - Search filters
@@ -44,7 +69,7 @@ What's new in v0.2.x
 
 How to install the module
 -------------------------
- - Copy everything from copy_this package folder to Your OXID eShop root directory.
+ - Copy everything from copy_this/ package folder to Your OXID eShop root directory.
  - Activate the module in administration back-end.
 
 That's it!

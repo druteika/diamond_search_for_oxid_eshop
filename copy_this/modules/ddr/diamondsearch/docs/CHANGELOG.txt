@@ -1,4 +1,32 @@
 Diamond Search change log
+-------------------------
+
+==0.3.1==
+ * CSS styles based coloring for color attribute filter
+
+==0.3.0==
+ * Price range filter (EE, PE editions only)
+ * New search option - find parent articles only (EE, PE editions only)
+ * Extended monitor page (EE, PE editions only)
+    -- More statistics for index contents
+    -- Most frequent search terms
+    -- Most popular search terms
+    -- Configuration options for statistics count and access settings
+ * Personalized search hints in auto-complete (EE, PE editions only)
+    -- Stores successful search queries
+    -- When searching again suggest saved terms on top of the auto-complete list
+ * Performance Booster (EE, PE editions only)
+    -- Module is pre-configured for maximum performance
+    -- Optimized indexing and search processes
+      --- Database indexes design tested and improved
+      --- Queries refactored for best performance
+      --- Removed redundant functionality to make indexing faster
+      --- Other performance fixes in indexing process
+ * Bug fixes and improvements
+    -- Search filters shown only in search page sidebar
+    -- Extended hits count display setting implementation
+    -- Added monitor page link in administration area main menu
+    -- Other minor fixes
 
 ==0.2.2 RC3==
  * Fixed re-indexing queries bugs

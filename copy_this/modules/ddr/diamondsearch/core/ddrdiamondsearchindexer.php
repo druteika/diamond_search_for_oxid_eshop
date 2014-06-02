@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -75,17 +75,12 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
                     $sTerm                = $oTerm->getTerm();
                     $aUniqueTerms[$sTerm] = isset( $aUniqueTerms[$sTerm] ) ? ( (int) $aUniqueTerms[$sTerm] + 1 ) : 1;
 
-                    // Set term to field relation
-                    $this->_setTerm2Field(
-                         $oTerm->getId(), $oParser->getArrayStringField( $aTermInfo, 'field', true, false )
-                    );
-
                     // Set term to article relation
                     $this->_setTerm2Article(
-                         $oTerm->getId(),
-                         $oArticle,
-                         (int) $aUniqueTerms[$sTerm],
-                         (int) $oParser->getArrayStringField( $aTermInfo, 'weight' )
+                        $oTerm->getId(),
+                        $oArticle,
+                        (int) $aUniqueTerms[$sTerm],
+                        (int) $oParser->getArrayStringField( $aTermInfo, 'weight' )
                     );
                 }
             }
@@ -140,30 +135,6 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
     }
 
     /**
-     * Load term relation to field.
-     * Set new relation if it does not exist.
-     *
-     * @param string $sTermId
-     * @param string $sField
-     *
-     * @return DdrDiamondSearchTerm2Field
-     */
-    protected function _setTerm2Field( $sTermId, $sField )
-    {
-        /** @var DdrDiamondSearchTerm2Field $oTerm2Field */
-        $oTerm2Field = oxNew( 'DdrDiamondSearchTerm2Field' );
-        $oTerm2Field->loadRelation( $sTermId, $sField );
-
-        if ( !$oTerm2Field->getId() ) {
-            $oTerm2Field->setTermId( $sTermId );
-            $oTerm2Field->setField( $sField );
-            $oTerm2Field->save();
-        }
-
-        return $oTerm2Field;
-    }
-
-    /**
      * Load term relation to article.
      * Set new relation if it does not exist.
      * Calculate relation parameters for search.
@@ -198,7 +169,9 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
         $oTerm2Article->setVendorId( $oArticle->oxarticles__oxvendorid->value );
         $oTerm2Article->setManufacturerId( $oArticle->oxarticles__oxmanufacturerid->value );
         $oTerm2Article->setTitle( $oArticle->oxarticles__oxtitle->value );
-        $oTerm2Article->setPrice( $oArticle->getVarMinPrice()->getPrice() );
+
+        $dArticlePrice = $oArticle->isVariant() ? $oArticle->getBasePrice() : $oArticle->getVarMinPrice()->getPrice();
+        $oTerm2Article->setPrice( $dArticlePrice );
 
         // Set term priority related parameters for the article
         $oTerm2Article->setMultiplicity( (int) $iMultiplicity );
@@ -217,9 +190,13 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
     protected function _saveFilterValues( $aFilterValue )
     {
         if ( !empty( $aFilterValue ) and is_array( $aFilterValue ) ) {
+            $blShowHits = (bool) oxRegistry::get( 'DdrDiamondSearchModule' )->getSetting( 'HintHits' );
 
-            /** @var DdrDiamondSearchOxSearch $oSearch */
-            $oSearch = oxNew( 'DdrDiamondSearchOxSearch' );
+            if ( $blShowHits ) {
+
+                /** @var DdrDiamondSearchOxSearch $oSearch */
+                $oSearch = oxNew( 'DdrDiamondSearchOxSearch' );
+            }
 
             foreach ( $aFilterValue as $sField => $sValue ) {
 
@@ -230,10 +207,12 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
                 if ( !$oFilterValue->getId() ) {
                     $oFilterValue->setField( $sField );
                     $oFilterValue->setValue( $sValue );
-                    $oFilterValue->setMultiplicity( 1 );
-                } else {
+                    if ( $blShowHits ) {
+                        $oFilterValue->setMultiplicity( 1 );
+                    }
+                } elseif ( $blShowHits ) {
                     $oFilterValue->setMultiplicity(
-                                 $oSearch->getSearchArticleCount( $sValue, false, false, false, false )
+                        $oSearch->getSearchArticleCount( $sValue, false, false, false, false )
                     );
                 }
 

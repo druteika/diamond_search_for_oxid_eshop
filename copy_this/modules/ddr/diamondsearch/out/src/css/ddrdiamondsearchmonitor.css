@@ -15,10 +15,11 @@ div.diamond-search-monitor table {
 div.diamond-search-monitor tr td,
 div.diamond-search-monitor tr th {
     padding: 3px 6px;
+    vertical-align: top;
 }
 
 div.diamond-search-monitor tr td {
-    cursor: pointer;
+    width: 50%;
 }
 
 div.diamond-search-monitor tr th {
@@ -28,4 +29,45 @@ div.diamond-search-monitor tr th {
 div.diamond-search-monitor tr:hover td {
     background-color: #F67504;
     color: #FFFFFF;
+}
+
+div.diamond-search-monitor tr.list:hover td {
+    background: none;
+    color: inherit;
+}
+
+div.diamond-search-monitor tr td.processed {
+    color: green;
+}
+
+div.diamond-search-monitor tr td.queued {
+    color: red;
+}
+
+div.diamond-search-monitor tr td ul {
+    margin: 0;
+}
+
+div.diamond-search-monitor tr td ul li {
+    color: #F67504;
+    cursor: help;
+    display: block;
+    float: left;
+    font-weight: bold;
+    list-style: none;
+    margin-right: 12px;
+}
+
+div.diamond-search-monitor tr td ul li:hover {
+    text-decoration: underline;
+}
+
+div.diamond-search-monitor p.footer {
+    font-size: 10px;
+    margin: 20px 0 0 0;
+    text-align: center;
+}
+
+div.diamond-search-monitor p.footer a {
+    color: #F67504;
 }

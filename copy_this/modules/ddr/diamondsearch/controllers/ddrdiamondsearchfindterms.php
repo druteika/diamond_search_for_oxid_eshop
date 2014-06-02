@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -73,6 +73,6 @@ class DdrDiamondSearchFindTerms extends oxUBase
     protected function _jsonResponse( $aData = array() )
     {
         print json_encode( $aData );
-        exit;
+        exit();
     }
 }

@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -18,15 +18,19 @@
  * You can adjust parameters, add or remove search fields here.
  * NOTE: Be careful when editing - backup file before changing and be sure, You know what You are doing!
  *
- * Filed key - unique field name, UPPERCASE, max length 24 chars.
+ * Filed key - unique field name, UPPERCASE, max length 24 chars!
  *
  * Parameters are:
  *  table  - model identifier - DB table name.
  *  field  - DB field name of corresponding model.
+ *  id     - (optional) An attribute ID for attribute fields.
  *  weight - integer value user for ranking calculation - higher value mean bigger priority in search.
  *  flag   - (optional) special flag. Currently supports:
  *              _DDR_NO_SPLIT_ - use it for short, one-word fields, that should not be spit,
  *                               e.g. article number, price, etc.
+ *  filter - (optional) filter flag with sort order priority as a value.
+ *           Set it on fields You want to have as search filters - suitable for fields with limited selection of values.
+ *           The bigger priority is the hither is position of a filter in filters list.
  */
 
 /**
@@ -149,7 +153,6 @@ class DdrDiamondSearchConfig extends oxSuperCfg
             'field'  => 'OXVALUE',
             'id'     => '6b6bc9f9ab8b153d9bebc2ad6ca2aa13',
             'weight' => 100,
-            'filter' => 250,
         ),
         'DDR_ATTR_INCDELIVERY'    => array(
             'table'  => 'oxattribute',
@@ -176,6 +179,8 @@ class DdrDiamondSearchConfig extends oxSuperCfg
             'field'  => 'OXVALUE',
             'id'     => '943d32fd45d6eba3e5c8cce511cc0e74',
             'weight' => 100,
+            'filter' => 25,
+            'flag'   => '_DDR_NO_SPLIT_',
         ),
         'DDR_ATTR_TEXTURE'        => array(
             'table'  => 'oxattribute',

@@ -5,7 +5,7 @@ div#ddrdiamondsearchfilter ul {
 }
 
 div#ddrdiamondsearchfilter ul li {
-    min-height: 215px;
+    min-height: 230px;
 }
 
 div#ddrdiamondsearchfilter ul li.reset {
@@ -36,8 +36,25 @@ div#ddrdiamondsearchfilter ul li label {
     width: 155px;
 }
 
-/* jQuery UI styles overrides */
+/* Color filter styles */
+.ui-multiselect-checkboxes label.colored {
+    color: #FFFFFF;
+    text-shadow: -1px 0 #555555, 0 1px #555555, 1px 0 #555555, 0 -1px #555555;
+}
 
+.ui-multiselect-checkboxes label.color-white      { background-color: #FFFFFF; color: #CCCCCC; border: 1px solid #CCCCCC; }
+.ui-multiselect-checkboxes label.color-black      { background-color: #000000; }
+.ui-multiselect-checkboxes label.color-blue       { background-color: #222f8b; }
+.ui-multiselect-checkboxes label.color-clover     { background-color: #2eaf65; }
+.ui-multiselect-checkboxes label.color-dark-blue  { background-color: #19136e; }
+.ui-multiselect-checkboxes label.color-nocturne   { background-color: #410f4f; }
+.ui-multiselect-checkboxes label.color-smoke-gray { background-color: #afafaf; }
+.ui-multiselect-checkboxes label.color-super-blue { background-color: #5356ed; }
+.ui-multiselect-checkboxes label.color-violet     { background-color: #a246bc; }
+.ui-multiselect-checkboxes label.color-gray       { background-color: #3e3e3e; }
+.ui-multiselect-checkboxes label.color-orange     { background-color: #eb7219; }
+
+/* jQuery UI styles overrides */
 div.ui-multiselect-header {
     background: none;
     content: '';

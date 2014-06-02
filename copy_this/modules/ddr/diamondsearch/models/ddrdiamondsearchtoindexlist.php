@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -85,12 +85,17 @@ class DdrDiamondSearchToIndexList extends oxList
 
         // Remove any articles left from index queue
         $sQuery = sprintf(
-            "DELETE FROM `%s` WHERE `DDRSHOPID` = %s",
+            "DELETE FROM `%s` WHERE `DDRSHOPID` = %s AND `DDRLANGID` = %d",
             $this->getTable(),
-            $oDb->quote( $sShopId )
+            $oDb->quote( $sShopId ),
+            (int) $iLanguageId
         );
 
-        $oDb->execute( $sQuery );
+        try {
+            $oDb->execute( $sQuery );
+        } catch ( oxException $oException ) {
+            $oException->debugOut();
+        }
 
         // Add all article to index queue
         $sQuery = sprintf(
@@ -106,7 +111,11 @@ class DdrDiamondSearchToIndexList extends oxList
             $oDb->quote( $sShopId )
         );
 
-        $oDb->execute( $sQuery );
+        try {
+            $oDb->execute( $sQuery );
+        } catch ( oxException $oException ) {
+            $oException->debugOut();
+        }
 
         return $oDb->Affected_Rows();
     }

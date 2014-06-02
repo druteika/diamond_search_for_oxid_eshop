@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -27,7 +27,7 @@ $aModule = array(
     'title'       => 'Diamond Search CE',
     'description' => 'Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!',
     'thumbnail'   => 'out/pictures/ddrdiamondsearch.png',
-    'version'     => '0.2.2 RC3',
+    'version'     => '0.3.1 CE',
     'author'      => 'Dmitrijus Druteika',
     'url'         => 'http://www.druteika.lt/#diamond_search_for_oxid_eshop',
     'email'       => 'dmitrijus.druteika@gmail.com',
@@ -40,6 +40,7 @@ $aModule = array(
     ),
     'files'       => array(
         'ddrdiamondsearchfilterswidget'   => 'ddr/diamondsearch/components/widgets/ddrdiamondsearchfilterswidget.php',
+        'admin_ddrdiamondsearchmonitor'   => 'ddr/diamondsearch/controllers/admin/admin_ddrdiamondsearchmonitor.php',
         'ddrdiamondsearchfilter'          => 'ddr/diamondsearch/controllers/ddrdiamondsearchfilter.php',
         'ddrdiamondsearchfindterms'       => 'ddr/diamondsearch/controllers/ddrdiamondsearchfindterms.php',
         'ddrdiamondsearchmonitor'         => 'ddr/diamondsearch/controllers/ddrdiamondsearchmonitor.php',
@@ -52,7 +53,6 @@ $aModule = array(
         'ddrdiamondsearchterm'            => 'ddr/diamondsearch/models/ddrdiamondsearchterm.php',
         'ddrdiamondsearchtermlist'        => 'ddr/diamondsearch/models/ddrdiamondsearchtermlist.php',
         'ddrdiamondsearchterm2article'    => 'ddr/diamondsearch/models/ddrdiamondsearchterm2article.php',
-        'ddrdiamondsearchterm2field'      => 'ddr/diamondsearch/models/ddrdiamondsearchterm2field.php',
         'ddrdiamondsearchtoindex'         => 'ddr/diamondsearch/models/ddrdiamondsearchtoindex.php',
         'ddrdiamondsearchtoindexlist'     => 'ddr/diamondsearch/models/ddrdiamondsearchtoindexlist.php',
         'ddrdiamondsearchconfig'          => 'ddr/diamondsearch/config.php',
@@ -104,12 +104,6 @@ $aModule = array(
             'type'  => 'bool',
             'value' => false,
         ),
-        /* array( // nice2have: Uncomment when feature is implemented
-            'group' => 'DdrDiamondSearchBehavior',
-            'name'  => 'DdrDiamondSearchOnlyParent',
-            'type'  => 'bool',
-            'value' => false,
-        ), */
         array(
             'group' => 'DdrDiamondSearchBehavior',
             'name'  => 'DdrDiamondSearchFindAll',
@@ -139,6 +133,18 @@ $aModule = array(
             'name'  => 'DdrDiamondSearchHintHits',
             'type'  => 'bool',
             'value' => true,
+        ),
+        array(
+            'group' => 'DdrDiamondSearchMonitor',
+            'name'  => 'DdrDiamondSearchPublicMon',
+            'type'  => 'bool',
+            'value' => false,
+        ),
+        array(
+            'group' => 'DdrDiamondSearchMonitor',
+            'name'  => 'DdrDiamondSearchListLen',
+            'type'  => 'str',
+            'value' => 24,
         ),
     ),
     'events'      => array(

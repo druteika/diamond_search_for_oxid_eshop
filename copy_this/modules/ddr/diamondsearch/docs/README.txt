@@ -8,7 +8,7 @@ Dmitrijus Druteika
 ddr
 
 ==Version==
-0.2.2 RC3
+0.3.1 CE
 
 ==Link==
 http://www.druteika.lt/#diamond_search_for_oxid_eshop
@@ -22,15 +22,13 @@ Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
  - Search field auto-complete function
  - Configurable search filters
  - Unlimited Multi-shops and multilingual shops support
- - No server configuration, to integrations, no setup or indexing effort - just install the module and activate it!
-   Articles will index for first time and re-index on changes automatically
+ - No server configuration, no integrations, no setup or indexing effort - just install the module and activate it!
+ - Articles will index for first time and re-index on changes automatically
  - Excellent performance even with large amount of articles
  - Easily configurable search options in administration back-end
  - Customize fields to search by, set ranking options, add Your custom fields
- - Unit tests provided (EE, PE editions only)
- - Monitor page with useful search statistics and indexing state (EE, PE editions only)
- - Personalized auto-complete hints (EE, PE editions only)
- - Ultimate cache mechanism for extreme performance (EE, PE editions only)
+ - Lots of useful search settings to match Your needs
+ - Monitor page to track indexing process
 
 ==Extend==
  * oxcmp_shop
@@ -44,6 +42,6 @@ Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
     -- getSearchArticleCount
 
 ==Installation==
-Copy everything from copy_this package folder to Your OXID eShop root directory.
+Copy everything from copy_this/ package folder to Your OXID eShop root directory.
 Activate the module in administration backend.
 That's it!

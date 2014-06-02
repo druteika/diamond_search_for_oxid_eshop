@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -20,11 +20,18 @@ $aLang = array(
     'charset'                                    => 'utf-8',
 
     /**
+     * Module menus translations
+     */
+    'ddrdiamondsearch'                           => 'Diamond Search',
+    'ddrdiamondsearchmonitor'                    => 'Monitor',
+
+    /**
      * Module setting translations
      */
     // Sections (groups)
     'SHOP_MODULE_GROUP_DdrDiamondSearchIndexing' => 'Indexing Settings',
     'SHOP_MODULE_GROUP_DdrDiamondSearchBehavior' => 'Search Behaviour Settings',
+    'SHOP_MODULE_GROUP_DdrDiamondSearchMonitor'  => 'Statistics Monitor Settings',
 
     // Settings
     'SHOP_MODULE_DdrDiamondSearchBundleSize'     => 'Max articles count for each auto-indexing run. The more it is the faster article will automatically re-index. But notice, that for big values shop might work slow!',
@@ -38,5 +45,9 @@ $aLang = array(
     'SHOP_MODULE_DdrDiamondSearchByPart'         => 'Search not only by full match, by also by word beginnings. NOTE: Search will work slower and it works only for more than one term is entered!',
     'SHOP_MODULE_DdrDiamondSearchMaxWords'       => 'Max number of words to search by in one query. NOTE: Search will work slower on too many terms!',
     'SHOP_MODULE_DdrDiamondSearchMaxHints'       => 'Max number of suggested hint to show in search field auto-complete list.',
+    'SHOP_MODULE_DdrDiamondSearchUserTerms'      => 'Max number of search history hints in search field auto-complete list. Set zero to turn off the feature.',
     'SHOP_MODULE_DdrDiamondSearchHintHits'       => 'Show approximate number of matching articles in auto-complete terms list.',
+
+    'SHOP_MODULE_DdrDiamondSearchPublicMon'      => 'Make Diamond Search Monitor page available for public access.',
+    'SHOP_MODULE_DdrDiamondSearchListLen'        => 'Number of items to show in statistics lists.',
 );

@@ -44,16 +44,15 @@
             if (!ui.checked) {
                 url = url + '&remove=1';
             }
-            location.href=url;
+            location.href = url;
             return false;
         },
         beforeopen: function(event, ui){
             if ( $(this).attr('id') == 'filter_id_ddr_attr_color' ) {
                 $('div.ui-multiselect-menu input[name=\"multiselect_filter_id_ddr_attr_color\"]').each(function(){
                     var label = $(this).parent();
-                    label.css('background-color', $(this).val());
-                    label.css('color', 'white');
-                    label.css('text-shadow', '-1px 0 #555555, 0 1px #555555, 1px 0 #555555, 0 -1px #555555');
+                    label.addClass('colored');
+                    label.addClass('color-' + $(this).val().toLowerCase().replace(' ', '-'));
                 });
             }
         },

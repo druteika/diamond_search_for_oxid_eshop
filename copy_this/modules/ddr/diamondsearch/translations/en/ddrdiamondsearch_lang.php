@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -26,6 +26,7 @@ $aLang = array(
     'DDR_DIAMONDSEARCH_FILTER_HEADNG'                 => 'Search',
     'DDR_DIAMONDSEARCH_FILTER_RESET'                  => 'Reset filters',
 
+    'DDR_DIAMONDSEARCH_FILTER_DDR_PRICE_TITLE'        => 'Price Range',
     'DDR_DIAMONDSEARCH_FILTER_DDR_CATEGORY_TITLE'     => 'Category',
     'DDR_DIAMONDSEARCH_FILTER_DDR_VENDOR_TITLE'       => 'Vendor',
     'DDR_DIAMONDSEARCH_FILTER_DDR_MANUFACTURER_TITLE' => 'Manufacturer',
@@ -55,16 +56,24 @@ $aLang = array(
     'DDR_DIAMONDSEARCH_MONITOR_MORETOCOME'            => 'More statistics and parameters to come in next releases!',
 
     // Table headings
-    'DDR_DIAMONDSEARCH_MONITOR_ALLSHOPS'              => 'All languages and shops statistics',
-    'DDR_DIAMONDSEARCH_MONITOR_CURRENTSHOP'           => 'Current shop and language statistics',
+    'DDR_DIAMONDSEARCH_MONITOR_CURRENTLANG'           => 'Current language statistics',
+    'DDR_DIAMONDSEARCH_MONITOR_ALLLANGS'              => 'All languages statistics',
     'DDR_DIAMONDSEARCH_MONITOR_EEPEONLY'              => '(EE/PE Editions Only)',
 
     // Table content
+    'DDR_DIAMONDSEARCH_MONITOR_INDEXSIZE'             => 'Indexed articles count',
     'DDR_DIAMONDSEARCH_MONITOR_QUEUESIZE'             => 'Not indexed articles waiting in queue',
+    'DDR_DIAMONDSEARCH_MONITOR_FIELDSCOUNT'           => 'Number of article fields to search by',
+    'DDR_DIAMONDSEARCH_MONITOR_FILTERSVALSCOUNT'      => 'Filter values count in index',
+    'DDR_DIAMONDSEARCH_MONITOR_FILTERSCOUNT'          => 'Different filters count in index',
     'DDR_DIAMONDSEARCH_MONITOR_TERMSCOUNT'            => 'Search terms count in index',
+    'DDR_DIAMONDSEARCH_MONITOR_TERM2ARTCOUNT'         => 'Search relations count between articles and terms',
     'DDR_DIAMONDSEARCH_MONITOR_TOPUSEDTERMS'          => 'Most frequently indexed terms',
     'DDR_DIAMONDSEARCH_MONITOR_TOPSEARCHEDTERMS'      => 'Most popular terms users search for',
 
-    // Actions
+    // Actions and tools
+    'DDR_DIAMONDSEARCH_MONITOR_TOOLS'                 => 'Tools',
     'DDR_DIAMONDSEARCH_MONITOR_INDEXNOW'              => 'Index now!',
+    'DDR_DIAMONDSEARCH_MONITOR_REINDEXALL'            => 'Re-index all articles',
+    'DDR_DIAMONDSEARCH_MONITOR_REINDEXHINT'           => 'To re-index articles, please deactivate and activate the module again in administration area.',
 );

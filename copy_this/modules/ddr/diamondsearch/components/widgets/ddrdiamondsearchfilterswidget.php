@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.2.2 RC3
+ * @version       0.3.1 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -72,9 +72,9 @@ class DdrDiamondSearchFiltersWidget extends oxWidget
 
                 $sValue = $oFilterValue->getValue();
                 $sLabel = sprintf(
-                    '%s (%d)',
+                    '%s%s',
                     html_entity_decode( $sValue ),
-                    ( $blShowHits ? (int) $oFilterValue->getMultiplicity() : '' )
+                    ( $blShowHits ? sprintf( ' (%d)', (int) $oFilterValue->getMultiplicity() ) : '' )
                 );
 
                 if ( !empty( $sField ) and !isset( $aFilterValues[$sField] ) ) {
