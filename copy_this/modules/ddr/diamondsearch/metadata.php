@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -27,19 +27,22 @@ $aModule = array(
     'title'       => 'Diamond Search CE',
     'description' => 'Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!',
     'thumbnail'   => 'out/pictures/ddrdiamondsearch.png',
-    'version'     => '0.3.1 CE',
+    'version'     => '0.4.0 CE',
     'author'      => 'Dmitrijus Druteika',
     'url'         => 'http://www.druteika.lt/#diamond_search_for_oxid_eshop',
     'email'       => 'dmitrijus.druteika@gmail.com',
     'extend'      => array(
-        'oxcmp_shop'    => 'ddr/diamondsearch/components/ddrdiamondsearchoxcmpshop',
         'search'        => 'ddr/diamondsearch/controllers/ddrdiamondsearchsearch',
+        'oxsession'     => 'ddr/diamondsearch/core/ddrdiamondsearchoxsession',
         'oxarticle'     => 'ddr/diamondsearch/models/ddrdiamondsearchoxarticle',
         'oxarticlelist' => 'ddr/diamondsearch/models/ddrdiamondsearchoxarticlelist',
         'oxsearch'      => 'ddr/diamondsearch/models/ddrdiamondsearchoxsearch',
     ),
     'files'       => array(
+        'ddrdiamondsearcharticleswidget'  => 'ddr/diamondsearch/components/widgets/ddrdiamondsearcharticleswidget.php',
         'ddrdiamondsearchfilterswidget'   => 'ddr/diamondsearch/components/widgets/ddrdiamondsearchfilterswidget.php',
+        'ddrdiamondsearchformwidget'      => 'ddr/diamondsearch/components/widgets/ddrdiamondsearchformwidget.php',
+        'ddrdiamondsearchindexingwidget'  => 'ddr/diamondsearch/components/widgets/ddrdiamondsearchindexingwidget.php',
         'admin_ddrdiamondsearchmonitor'   => 'ddr/diamondsearch/controllers/admin/admin_ddrdiamondsearchmonitor.php',
         'ddrdiamondsearchfilter'          => 'ddr/diamondsearch/controllers/ddrdiamondsearchfilter.php',
         'ddrdiamondsearchfindterms'       => 'ddr/diamondsearch/controllers/ddrdiamondsearchfindterms.php',
@@ -58,8 +61,11 @@ $aModule = array(
         'ddrdiamondsearchconfig'          => 'ddr/diamondsearch/config.php',
     ),
     'templates'   => array(
-        'ddrdiamondsearchmonitor.tpl'       => 'ddr/diamondsearch/views/page/ddrdiamondsearchmonitor.tpl',
-        'ddrdiamondsearchfilterswidget.tpl' => 'ddr/diamondsearch/views/widget/ddrdiamondsearchfilterswidget.tpl',
+        'ddrdiamondsearchmonitor.tpl'        => 'ddr/diamondsearch/views/page/ddrdiamondsearchmonitor.tpl',
+        'ddrdiamondsearcharticleswidget.tpl' => 'ddr/diamondsearch/views/widget/ddrdiamondsearcharticleswidget.tpl',
+        'ddrdiamondsearchfilterswidget.tpl'  => 'ddr/diamondsearch/views/widget/ddrdiamondsearchfilterswidget.tpl',
+        'ddrdiamondsearchformwidget.tpl'     => 'ddr/diamondsearch/views/widget/ddrdiamondsearchformwidget.tpl',
+        'ddrdiamondsearchindexingwidget.tpl' => 'ddr/diamondsearch/views/widget/ddrdiamondsearchindexingwidget.tpl',
     ),
     'blocks'      => array(
         array(
@@ -71,6 +77,11 @@ $aModule = array(
             'template' => 'layout/sidebar.tpl',
             'block'    => 'sidebar',
             'file'     => 'views/blocks/ddrdiamondsearchsidebarfilters.tpl',
+        ),
+        array(
+            'template' => 'layout/page.tpl',
+            'block'    => 'content_main',
+            'file'     => 'views/blocks/ddrdiamondsearchmaincontent.tpl',
         ),
     ),
     'settings'    => array(
@@ -97,6 +108,15 @@ $aModule = array(
             'name'  => 'DdrDiamondSearchSaveStats',
             'type'  => 'bool',
             'value' => true,
+        ),
+        array(
+            'group' => 'DdrDiamondSearchIndexing',
+            'name'  => 'DdrDiamondSearchStopWords',
+            'type'  => 'aarr',
+            'value' => array(
+                'en' => 'a,ahm,an,c,co,com,im,in,incl,let,sle,t,the,true,und,www',
+                'de' => 'c,co,com,das,der,in,sle,t,true,www',
+            ),
         ),
         array(
             'group' => 'DdrDiamondSearchBehavior',
@@ -145,6 +165,18 @@ $aModule = array(
             'name'  => 'DdrDiamondSearchListLen',
             'type'  => 'str',
             'value' => 24,
+        ),
+        array(
+            'group' => 'DdrDiamondSearchPromotion',
+            'name'  => 'DdrDiamondSearchPromoTitle',
+            'type'  => 'str',
+            'value' => 'Diamond Search - Promotion Articles - Core GT kites!',
+        ),
+        array(
+            'group' => 'DdrDiamondSearchPromotion',
+            'name'  => 'DdrDiamondSearchPromoQuery',
+            'type'  => 'str',
+            'value' => 'kites core GT',
         ),
     ),
     'events'      => array(

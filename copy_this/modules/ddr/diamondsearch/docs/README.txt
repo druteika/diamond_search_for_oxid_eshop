@@ -8,7 +8,7 @@ Dmitrijus Druteika
 ddr
 
 ==Version==
-0.3.1 CE
+0.4.0 CE
 
 ==Link==
 http://www.druteika.lt/#diamond_search_for_oxid_eshop
@@ -29,10 +29,12 @@ Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
  - Customize fields to search by, set ranking options, add Your custom fields
  - Lots of useful search settings to match Your needs
  - Monitor page to track indexing process
+ - Advanced search form
+ - Promotion articles widget
 
 ==Extend==
- * oxcmp_shop
-   -- render
+ * oxsession
+   -- _forceSessionStart
  * oxarticle
     -- save
     -- delete

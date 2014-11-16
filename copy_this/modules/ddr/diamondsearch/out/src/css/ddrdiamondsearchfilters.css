@@ -36,23 +36,98 @@ div#ddrdiamondsearchfilter ul li label {
     width: 155px;
 }
 
+div#ddrdiamondsearchfilter ul li.selected {
+    min-height: 71px;
+}
+
+div#ddrdiamondsearchfilter ul li.selected label {
+    background: linear-gradient(#FE8404, #ED6305) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    font-size: 13px;
+    text-shadow: none;
+}
+
+div#ddrdiamondsearchfilter ul li.selected div {
+    border-radius: 4px;
+    margin: 4px;
+    padding: 4px 8px;
+}
+
+div#ddrdiamondsearchfilter ul li.selected div span.reset {
+    cursor: pointer;
+    float: right;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
 /* Color filter styles */
 .ui-multiselect-checkboxes label.colored {
     color: #FFFFFF;
     text-shadow: -1px 0 #555555, 0 1px #555555, 1px 0 #555555, 0 -1px #555555;
 }
 
-.ui-multiselect-checkboxes label.color-white      { background-color: #FFFFFF; color: #CCCCCC; border: 1px solid #CCCCCC; }
-.ui-multiselect-checkboxes label.color-black      { background-color: #000000; }
-.ui-multiselect-checkboxes label.color-blue       { background-color: #222f8b; }
-.ui-multiselect-checkboxes label.color-clover     { background-color: #2eaf65; }
-.ui-multiselect-checkboxes label.color-dark-blue  { background-color: #19136e; }
-.ui-multiselect-checkboxes label.color-nocturne   { background-color: #410f4f; }
-.ui-multiselect-checkboxes label.color-smoke-gray { background-color: #afafaf; }
-.ui-multiselect-checkboxes label.color-super-blue { background-color: #5356ed; }
-.ui-multiselect-checkboxes label.color-violet     { background-color: #a246bc; }
-.ui-multiselect-checkboxes label.color-gray       { background-color: #3e3e3e; }
-.ui-multiselect-checkboxes label.color-orange     { background-color: #eb7219; }
+.ui-multiselect-checkboxes label.color-white {
+    background-color: #FFFFFF;
+    color: #CCCCCC;
+    border: 1px solid #CCCCCC;
+}
+
+.ui-multiselect-checkboxes label.color-black {
+    background-color: #000000;
+}
+
+.ui-multiselect-checkboxes label.color-blue {
+    background-color: #222f8b;
+}
+
+.ui-multiselect-checkboxes label.color-clover {
+    background-color: #2eaf65;
+}
+
+.ui-multiselect-checkboxes label.color-dark-blue {
+    background-color: #19136e;
+}
+
+.ui-multiselect-checkboxes label.color-nocturne {
+    background-color: #410f4f;
+}
+
+.ui-multiselect-checkboxes label.color-smoke-gray {
+    background-color: #afafaf;
+}
+
+.ui-multiselect-checkboxes label.color-super-blue {
+    background-color: #5356ed;
+}
+
+.ui-multiselect-checkboxes label.color-violet {
+    background-color: #a246bc;
+}
+
+.ui-multiselect-checkboxes label.color-gray {
+    background-color: #3e3e3e;
+}
+
+.ui-multiselect-checkboxes label.color-orange {
+    background-color: #eb7219;
+}
+
+/* Price filter styles */
+div#ddrdiamondsearchfilter ul li.price-filter {
+    min-height: 95px;
+}
+
+input#filter_id_price {
+    border: none;
+    margin: 10px 0 0 0;
+    outline: none;
+    text-align: center;
+    width: 165px;
+}
+
+div#filter_id_price_range {
+    margin: 10px;
+}
 
 /* jQuery UI styles overrides */
 div.ui-multiselect-header {

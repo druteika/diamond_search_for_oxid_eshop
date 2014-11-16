@@ -1,0 +1,33 @@
+/* Diamond Search - advanced search form widget styles for OXID eShop Azure theme */
+
+div#ddrdiamondsearchform label {
+    display: block;
+    width: 100%;
+}
+
+div#ddrdiamondsearchform label.center {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+div#ddrdiamondsearchform select,
+div#ddrdiamondsearchform input {
+    margin-bottom: 8px;
+}
+
+div#ddrdiamondsearchform select {
+    width: 150px;
+}
+
+div#ddrdiamondsearchform input {
+    width: 138px;
+}
+
+div#ddrdiamondsearchform button {
+    float: right;
+}
+
+div#ddrdiamondsearchform div.clear {
+    clear: both;
+    width: 100%;
+}

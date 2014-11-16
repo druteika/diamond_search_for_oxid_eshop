@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -66,6 +66,7 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
         } else {
 
             // Fallback to default search
+            // TODO: Also possible first fallback from AND search to OR search, then to default!
             return $this->_DdrDiamondSearchOxSearch_getSearchArticles_parent(
                 $sSearchParamForQuery, $sInitialSearchCat, $sInitialSearchVendor,
                 $sInitialSearchManufacturer, $sSortBy
@@ -110,6 +111,25 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
         }
     }
 
+    /**
+     * Search article by a query.
+     *
+     * @param string $sQuery
+     *
+     * @return DdrDiamondSearchOxArticleList|oxArticleList
+     */
+    public function getArticlesByQuery( $sQuery )
+    {
+        // Search articles and get found articles IDs
+        $aIds = (array) $this->_getSearchArticles( $sQuery, '', '', '', '', false, false );
+
+        /** @var DdrDiamondSearchOxArticleList|oxArticleList $oArtList */
+        $oArtList = oxNew( 'oxArticleList' );
+        $oArtList->loadByIds( $aIds );
+
+        return $oArtList;
+    }
+
 
     /**
      * Search articles and get fount articles IDs or count of found articles.
@@ -137,7 +157,11 @@ class DdrDiamondSearchOxSearch extends DdrDiamondSearchOxSearch_parent
         $aFilter = (array) $oModule->getSelectedFilterValues();
 
         if ( !empty( $blSearchFromSession ) and !empty( $aFilter ) ) {
-            $sSearchParamForQuery .= ' ' . implode( ' ', $aFilter );
+            $aTermFilter = $aFilter;
+
+            if ( !empty( $aTermFilter ) ) {
+                $sSearchParamForQuery .= ' ' . implode( ' ', $aTermFilter );
+            }
         }
 
         if ( empty( $sSearchParamForQuery ) ) {

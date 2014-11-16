@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -93,11 +93,13 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
             $oToIndex->load( $mResult );
             $oToIndex->setArticleId( $mResult );
 
+            $blIndexNow = (bool) oxRegistry::get( 'DdrDiamondSearchModule' )->getSetting( 'IndexOnChange' );
+
             if ( !empty( $this->oxarticles__oxactive->value ) ) {
-                if ( oxRegistry::get( 'DdrDiamondSearchModule' )->getSetting( 'IndexOnChange' ) ) {
+                if ( $blIndexNow ) {
 
                     // Index the article now
-                    oxRegistry::get( 'DdrDiamondSearchIndexer' )->indexArticle( $this );
+                    $this->_indexNow();
                 } else {
 
                     // If article is active, add it to indexing queue
@@ -105,8 +107,16 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
                 }
             } else {
 
-                // If article is not active, remove it from indexing queue
-                $oToIndex->delete();
+                // If article is not active, remove it from index
+                if ( $blIndexNow ) {
+
+                    // Remove article and its variants from search
+                    $this->_deleteFromIndex();
+                } else {
+
+                    // Just remove from search queue
+                    $oToIndex->delete();
+                }
             }
         }
 
@@ -130,13 +140,7 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
         if ( !empty( $mResult ) and !empty( $sDeleteId ) ) {
 
             // Remove article from index queue and article to term relations
-            /** var DdrDiamondSearchToIndex $oToIndex */
-            $oToIndex = oxNew( 'DdrDiamondSearchToIndex' );
-            $oToIndex->delete( $sDeleteId );
-
-            /** var DdrDiamondSearchTerm2Article $oTermToArticle */
-            $oTermToArticle = oxNew( 'DdrDiamondSearchTerm2Article' );
-            $oTermToArticle->deleteByArticleId( $sDeleteId );
+            $this->_deleteFromIndex();
         }
 
         return $mResult;
@@ -152,6 +156,8 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
      */
     protected function _getFieldValue( $aParams )
     {
+        /** @var DdrDiamondSearchOxArticle|oxArticle $this */
+
         $sValue = null;
         $sField = '';
 
@@ -171,7 +177,7 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
                 $oObject = $this;
 
                 if ( $sName == 'oxtags' ) {
-                    $sValue = $oObject->getTags();
+                    $sValue = $oObject->_getArticleTags();
                 } elseif ( $sName == 'oxlongdesc' ) {
                     $sField = '_oLongDesc';
                 }
@@ -291,6 +297,78 @@ class DdrDiamondSearchOxArticle extends DdrDiamondSearchOxArticle_parent
         }
 
         return $oObject;
+    }
+
+    /**
+     * Get article tags.
+     *
+     * @return string
+     */
+    protected function _getArticleTags()
+    {
+        /** @var DdrDiamondSearchOxArticle|oxArticle $this */
+
+        if ( method_exists( $this, 'getTags' ) ) {
+
+            // Tags getter for eShop version 5.1.x/4.8.x or older
+            $sTags = (string) $this->getTags();
+        } else {
+
+            // Way to get tags for newer shop versions
+            $oDb   = oxDb::getDb();
+            $sTags = (string) $oDb->getOne(
+                sprintf(
+                    "SELECT `OXTAGS` FROM `%s` WHERE `OXID` = %s",
+                    getViewName( 'oxartextends', $this->getLanguage() ),
+                    $oDb->quote( $this->getId() )
+                )
+            );
+        }
+
+        return $sTags;
+    }
+
+    /**
+     * Index article and its variants now.
+     */
+    protected function _indexNow()
+    {
+        /** @var DdrDiamondSearchOxArticle|oxArticle $this */
+
+        $aArticles     = array($this);
+        $oVariantsList = $this->getVariants();
+
+        if ( !empty( $oVariantsList ) and ( $oVariantsList instanceof oxList ) ) {
+            $aArticles = array_merge( $aArticles, $oVariantsList->getArray() );
+        }
+
+        /** @var DdrDiamondSearchIndexer $oIndexer */
+        $oIndexer = oxRegistry::get( 'DdrDiamondSearchIndexer' );
+
+        foreach ( $aArticles as $oArticle ) {
+            $oIndexer->indexArticle( $oArticle );
+        }
+    }
+
+    /**
+     * Delete article and its variants from search index.
+     */
+    protected function _deleteFromIndex()
+    {
+        /** @var DdrDiamondSearchOxArticle|oxArticle $this */
+
+        /** var DdrDiamondSearchToIndex $oToIndex */
+        $oToIndex = oxNew( 'DdrDiamondSearchToIndex' );
+        $oToIndex->delete( $this->getId() );
+
+        $aRemoveIds = array_merge( array($this->getId()), (array) $this->getVariantIds( false ) );
+
+        /** @var DdrDiamondSearchTerm2Article $oTerm2Article */
+        $oTerm2Article = oxNew( 'DdrDiamondSearchTerm2Article' );
+
+        foreach ( $aRemoveIds as $sArticleId ) {
+            $oTerm2Article->deleteByArticleId( $sArticleId );
+        }
     }
 
 

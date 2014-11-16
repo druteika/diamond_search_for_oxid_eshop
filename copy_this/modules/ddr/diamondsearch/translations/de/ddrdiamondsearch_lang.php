@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -22,6 +22,20 @@ $sLangName = "Deutsch";
 
 $aLang = array(
     'charset'                                         => 'ISO-8859-15',
+
+    /**
+     * Settings
+     */
+    '_DDR_STOP_WORDS_'                                => 'aber,als,am,an,auch,auf,aus,bei,bin,bis,bist,da,dadurch,daher,darum,das,daß,dass,dein,deine,dem,den,der,des,dessen,deshalb,die,dies,dieser,dieses,doch,dort,du,durch,ein,eine,einem,einen,einer,eines,er,es,euer,eure,für,hatte,hatten,hattest,hattet,hier,hinter,ich,ihr,ihre,im,in,ist,ja,jede,jedem,jeden,jeder,jedes,jener,jenes,jetzt,kann,kannst,können,könnt,machen,mein,meine,mit,muß,mußt,musst,müssen,müßt,nach,nachdem,nein,nicht,nun,oder,seid,sein,seine,sich,sie,sind,soll,sollen,sollst,sollt,sonst,soweit,sowie,und,unser,unsere,unter,vom,von,vor,wann,warum,was,weiter,weitere,wenn,wer,werde,werden,werdet,weshalb,wie,wieder,wieso,wir,wird,wirst,wo,woher,wohin,zu,zum,zur,über',
+
+
+    /**
+     * Advanced search form
+     */
+    'DDR_DIAMONDSEARCH_FORM_TITLE'                    => 'Advanced search',
+    'DDR_DIAMONDSEARCH_FORM_OR'                       => 'or',
+    'DDR_DIAMONDSEARCH_FORM_GO'                       => 'Go!',
+
 
     /**
      * Filters

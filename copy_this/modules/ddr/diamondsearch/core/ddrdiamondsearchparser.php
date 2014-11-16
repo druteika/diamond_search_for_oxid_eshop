@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -20,6 +20,14 @@
  */
 class DdrDiamondSearchParser extends oxSuperCfg
 {
+
+    /**
+     * Stop words to filter out from search terms.
+     *
+     * @var null|array
+     */
+    protected $_aStopWords = null;
+
 
     /**
      * Parse string for search terms.
@@ -34,16 +42,21 @@ class DdrDiamondSearchParser extends oxSuperCfg
     public function parse( $sText, $iLimit = 0, $blTotalSplit = true )
     {
         $aTerms      = array();
-        $aSplitChars = array(',', ':', ';', '|', '/', '\\', "\t", "\r\n", PHP_EOL);
+        $aSplitChars = array(',', ':', ';', '-', '.', '|', '/', '\\', "\t", "\r\n", PHP_EOL);
 
         if ( !empty( $blTotalSplit ) ) {
 
             // Add more chars to split by
-            $aSplitChars = array_merge( $aSplitChars, array('.', '_', '-', '*', '=', '?', '&') );
+            $aSplitChars = array_merge( $aSplitChars, array('_', '*', '=', '?', '&') );
         }
 
         // Split text to words
-        $sText     = str_replace( $aSplitChars, ' ', trim( strip_tags( (string) $sText ) ) );
+        $sText = str_replace(
+            $aSplitChars,
+            ' ',
+            trim( htmlspecialchars_decode( strip_tags( (string) $sText ), ENT_QUOTES ) )
+        );
+
         $aRawWords = explode( ' ', $sText );
 
         if ( !empty( $aRawWords ) and is_array( $aRawWords ) ) {
@@ -51,6 +64,11 @@ class DdrDiamondSearchParser extends oxSuperCfg
 
                 // Get clean, formatted term value
                 $sTerm = $this->cleanString( $sRawWord );
+
+                // Stop words filter filtering out
+                if ( $this->_isStopWord( $sTerm ) ) {
+                    continue;
+                }
 
                 if ( !empty( $sTerm ) and !in_array( $sTerm, $aTerms ) ) {
                     $aTerms[] = $sTerm;
@@ -108,7 +126,7 @@ class DdrDiamondSearchParser extends oxSuperCfg
             $sValue = str_replace(
                 array(
                     '~', '`', '!', '@', '#', '$', '%', '^', '&', '(', ')', '=', '+', '[', '{', '}', ']', '<', '>', '?',
-                    "'", '"'
+                    "'", '"', '39;', '34;'
                 ),
                 '',
                 $sValue
@@ -124,5 +142,34 @@ class DdrDiamondSearchParser extends oxSuperCfg
         }
 
         return $sValue;
+    }
+
+
+    /**
+     * Check if a word is one of stop words.
+     *
+     * @param string $sWord
+     *
+     * @return bool
+     */
+    protected function _isStopWord( $sWord )
+    {
+        if ( is_null( $this->_aStopWords ) ) {
+
+            /** @var DdrDiamondSearchModule $oModule */
+            $oModule   = oxNew( 'DdrDiamondSearchModule' );
+            $sLanguage = oxRegistry::getLang()->getLanguageAbbr();
+
+            $sDefaultStopWords = $oModule->translate( '_DDR_STOP_WORDS_', false );
+            $aCustomStopWords  = (array) $oModule->getSetting( 'StopWords' );
+            $sCustomStopWords  = array_key_exists( $sLanguage, $aCustomStopWords ) ? $aCustomStopWords[$sLanguage] : '';
+
+            $this->_aStopWords = explode(
+                ',',
+                str_replace( ' ', '', ( $sDefaultStopWords . ',' . $sCustomStopWords ) )
+            );
+        }
+
+        return in_array( $sWord, $this->_aStopWords );
     }
 }

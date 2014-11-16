@@ -17,6 +17,41 @@ Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
  - Customize fields to search by, set ranking options, add Your custom fields
  - Lots of useful search settings to match Your needs
  - Monitor page to track indexing process
+ - Advanced search form
+ - Promotion articles widget
+
+![Diamond Search - Autocomplete](docs/1-autocomplete.png)
+
+![Diamond Search - Filters](docs/3-filters.png)
+
+![Diamond Search - Options](docs/5-options.png)
+
+![Diamond Search - Monitor](docs/6-monitor.png)
+
+What's new in v0.4.x
+--------------------
+ - Compatibility with OXID eShop v4.9.x/v5.2.x
+ - Advanced search form widget
+    - Fully configurable fields to filter by
+    - Works as a combined filer compatible with sidebar filters
+ - Promotion articles widget
+    - Articles selection box widget
+    - Configurable in back end for default selection
+    - Also could be inserted as a widget with custom parameters
+    - Selection is based on Diamond Search engine
+ - Stop words list for unwanted search terms
+    - Pre-configured for most common not needed search keywords
+    - Configurable per language for custom keywords exclusion
+ - Search filters adjusted
+    - Selected filter is highlighted
+    - If filter is selected, other values are not shown
+ - Bug fixes and refactoring
+    - German language specific words parsing fixed
+    - Filter values URL encoding issues fixed
+    - Search parser values decoding and split bug fixed
+    - CMS pages rendering failure bug fixed
+    - Variant indexing on parent article save implemented
+    - Variants removal from index on parent article deletion/deactivation
 
 What's new in v0.3.x
 --------------------

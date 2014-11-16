@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -17,8 +17,6 @@
 /**
  * Class DdrDiamondSearchFiltersWidget.
  * Filters widget.
- *
- * @nice2have: Setup cache for the widget.
  */
 class DdrDiamondSearchFiltersWidget extends oxWidget
 {
@@ -42,6 +40,8 @@ class DdrDiamondSearchFiltersWidget extends oxWidget
     /**
      * Load filter values and group by field.
      * Additionally sort values.
+     *
+     * @todo: Refactor this long method
      *
      * @return array
      */
@@ -83,10 +83,14 @@ class DdrDiamondSearchFiltersWidget extends oxWidget
 
                 if ( !empty( $sValue ) ) {
                     $aFilterValues[$sField][$sValue] = array(
-                        'value'    => $sValue,
+                        'value'    => $sValue, //rawurlencode( $sValue ), // Encoding done in JS
                         'label'    => $sLabel,
                         'selected' => isset( $aSelectedValues[$sValue] )
                     );
+
+                    if ( isset( $aSelectedValues[$sValue] ) ) {
+                        $aFilterValues[$sField]['__selected__'] = true;
+                    }
                 }
             }
         }

@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -31,6 +31,10 @@
  *  filter - (optional) filter flag with sort order priority as a value.
  *           Set it on fields You want to have as search filters - suitable for fields with limited selection of values.
  *           The bigger priority is the hither is position of a filter in filters list.
+ *  form   - (optional) advanced search form flag with sort order priority as value.
+ *           If set, field appears in advanced search form as drop down filter.
+ *           The bigger priority is the hither is position of a field in advanced search form.
+ *           NOTE: Advanced search form work only if `filter` is also set.
  */
 
 /**
@@ -93,6 +97,7 @@ class DdrDiamondSearchConfig extends oxSuperCfg
             'field'  => 'OXTITLE',
             'weight' => 1000,
             'filter' => 10000,
+            'form'   => 10000,
         ),
 
         /* Vendor fields */
@@ -108,6 +113,7 @@ class DdrDiamondSearchConfig extends oxSuperCfg
             'field'  => 'OXTITLE',
             'weight' => 100,
             'filter' => 1000,
+            'form'   => 1000,
         ),
 
         /* Attributes */
@@ -126,6 +132,7 @@ class DdrDiamondSearchConfig extends oxSuperCfg
             'id'     => '9438ac75bac3e344628b14bf7ed82c15',
             'weight' => 100,
             'filter' => 500,
+            'form'   => 500,
         ),
         'DDR_ATT_CUT'             => array(
             'table'  => 'oxattribute',
@@ -228,18 +235,40 @@ class DdrDiamondSearchConfig extends oxSuperCfg
      */
     public function getFilterFields()
     {
-        $aFilterFields = array();
+        return $this->_getFlaggedFields( 'filter' );
+    }
+
+    /**
+     * Get fields that have advanced search form flag sorted by filters priority.
+     *
+     * @return array
+     */
+    public function getAdvancedSearchFields()
+    {
+        return $this->_getFlaggedFields( 'form' );
+    }
+
+    /**
+     * Get fields that have a flag set.
+     *
+     * @param string $sFlagName
+     *
+     * @return array
+     */
+    protected function _getFlaggedFields( $sFlagName )
+    {
+        $aFlaggedFields = array();
 
         $aFields = $this->getSearchFields();
 
         foreach ( $aFields as $sFieldName => $aFiledParams ) {
-            if ( !empty( $aFiledParams['filter'] ) ) {
-                $aFilterFields[$sFieldName] = (int) $aFiledParams['filter'];
+            if ( !empty( $aFiledParams[$sFlagName] ) ) {
+                $aFlaggedFields[$sFieldName] = (int) $aFiledParams[$sFlagName];
             }
         }
 
-        arsort( $aFilterFields );
+        arsort( $aFlaggedFields );
 
-        return $aFilterFields;
+        return $aFlaggedFields;
     }
 }

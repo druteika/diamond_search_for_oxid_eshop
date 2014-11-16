@@ -1,6 +1,30 @@
 Diamond Search change log
 -------------------------
 
+==0.4.0==
+ * Compatibility with OXID eShop v4.9.x/v5.2.x
+ * Advanced search form widget
+    -- Fully configurable fields to filter by
+    -- Works as a combined filer compatible with sidebar filters
+ * Promotion articles widget
+    -- Articles selection box widget
+    -- Configurable in back end for default selection
+    -- Also could be inserted as a widget with custom parameters
+    -- Selection is based on Diamond Search engine
+ * Stop words list for unwanted search terms
+    -- Pre-configured for most common not needed search keywords
+    -- Configurable per language for custom keywords exclusion
+ * Search filters adjusted
+    -- Selected filter is highlighted
+    -- If filter is selected, other values are not shown
+ * Bug fixes and refactoring
+    -- German language specific words parsing fixed
+    -- Filter values URL encoding issues fixed
+    -- Search parser values decoding and split bug fixed
+    -- CMS pages rendering failure bug fixed
+    -- Variant indexing on parent article save implemented
+    -- Variants removal from index on parent article deletion/deactivation
+
 ==0.3.1==
  * CSS styles based coloring for color attribute filter
 

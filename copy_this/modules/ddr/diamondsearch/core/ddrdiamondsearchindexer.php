@@ -8,7 +8,7 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
@@ -152,13 +152,15 @@ class DdrDiamondSearchIndexer extends oxSuperCfg
             return null;
         }
 
+        $sArticleId = (string) $oArticle->getId();
+
         /** @var DdrDiamondSearchTerm2Article $oTerm2Article */
         $oTerm2Article = oxNew( 'DdrDiamondSearchTerm2Article' );
-        $oTerm2Article->loadRelation( $sTermId, $oArticle->getId() );
+        $oTerm2Article->loadRelation( $sTermId, $sArticleId );
 
         if ( !$oTerm2Article->getId() ) {
             $oTerm2Article->setTermId( $sTermId );
-            $oTerm2Article->setArticleId( $oArticle->getId() );
+            $oTerm2Article->setArticleId( $sArticleId );
         }
 
         // Set article field copies

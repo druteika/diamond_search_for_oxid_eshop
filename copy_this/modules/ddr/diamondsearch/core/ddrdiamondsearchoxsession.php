@@ -15,23 +15,21 @@
  */
 
 /**
- * Class Admin_DdrDiamondSearchMonitor.
+ * Class DdrDiamondSearchOxSession overloads oxSession
+ *
+ * @see oxSession
  */
-class Admin_DdrDiamondSearchMonitor extends oxAdminView
+class DdrDiamondSearchOxSession extends DdrDiamondSearchOxSession_parent
 {
 
     /**
-     * Redirect to the Diamond Search monitor page on front-end.
+     * Overloaded parent method.
+     * Force session start for Diamond Search filters on older shops.
      *
-     * @return null
+     * @inheritDoc
      */
-    public function render()
+    protected function _forceSessionStart()
     {
-        printf(
-            '<script type="text/javascript">window.top.location.href = "%s";</script>',
-            sprintf( '%s?cl=ddrdiamondsearchmonitor', $this->getConfig()->getCurrentShopUrl( false ) )
-        );
-
-        exit();
+        return !oxRegistry::getUtils()->isSearchEngine();
     }
 }

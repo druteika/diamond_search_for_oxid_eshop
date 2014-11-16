@@ -8,26 +8,27 @@
  * For more information please see included LICENCE.txt file.
  *
  * @package       ddrdiamondsearch module
- * @version       0.3.1 CE
+ * @version       0.4.0 CE
  * @link          http://www.druteika.lt/#diamond_search_for_oxid_eshop
  * @author        Dmitrijus Druteika <dmitrijus.druteika@gmail.com>
  * @copyright (C) Dmitrijus Druteika 2014
  */
 
 /**
- * Class DdrDiamondSearchOxcmpShop.
- * Extended shop component.
- *
- * @see oxcmp_shop
+ * Class DdrDiamondSearchIndexingWidget.
+ * Auto-indexing trigger.
  */
-class DdrDiamondSearchOxcmpShop extends DdrDiamondSearchOxcmpShop_parent
+class DdrDiamondSearchIndexingWidget extends oxWidget
 {
 
     /**
-     * Overridden parent method.
-     * On each shop load indexes a bundle of articles.
-     *
-     * @return mixed
+     * @var string Widget template.
+     */
+    protected $_sThisTemplate = 'ddrdiamondsearchindexingwidget.tpl';
+
+
+    /**
+     * Trigger auto-indexing run.
      */
     public function render()
     {
@@ -35,21 +36,17 @@ class DdrDiamondSearchOxcmpShop extends DdrDiamondSearchOxcmpShop_parent
         $oIndexer = oxNew( 'DdrDiamondSearchIndexer' );
         $oIndexer->run();
 
-        // Force session start
-        oxRegistry::getConfig()->setConfigParam( 'blForceSessionStart', true );
-
-        return $this->_DdrDiamondSearchOxcmpShop_render_parent();
+        return $this->_DdrDiamondSearchIndexingWidget_render_parent();
     }
+
 
     /**
      * Parent `render` call.
      *
-     * @codeCoverageIgnore
-     *
-     * @return mixed
+     * @return null
      */
-    protected function _DdrDiamondSearchOxcmpShop_render_parent()
+    protected function _DdrDiamondSearchIndexingWidget_render_parent()
     {
-        parent::render();
+        return parent::render();
     }
 }
