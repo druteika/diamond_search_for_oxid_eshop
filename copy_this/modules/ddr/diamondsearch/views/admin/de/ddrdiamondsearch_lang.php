@@ -15,7 +15,7 @@
  */
 
 /**
- * @todo: German translations. NOTE: File encoding must be ISO-8859-15.
+ * @todo: German translations for remaining codes. NOTE: File encoding must be ISO-8859-15.
  */
 
 $sLangName = "Deutsch";
@@ -33,10 +33,10 @@ $aLang = array(
      * Module setting translations
      */
     // Sections (groups)
-    'SHOP_MODULE_GROUP_DdrDiamondSearchIndexing'  => 'Indexing Settings',
-    'SHOP_MODULE_GROUP_DdrDiamondSearchBehavior'  => 'Search Behaviour Settings',
-    'SHOP_MODULE_GROUP_DdrDiamondSearchMonitor'   => 'Statistics Monitor Settings',
-    'SHOP_MODULE_GROUP_DdrDiamondSearchPromotion' => 'Promotion Articles Widget Settings',
+    'SHOP_MODULE_GROUP_DdrDiamondSearchIndexing'  => 'Indexierungseinstellungen',
+    'SHOP_MODULE_GROUP_DdrDiamondSearchBehavior'  => 'Einstellungen Suchverhalten',
+    'SHOP_MODULE_GROUP_DdrDiamondSearchMonitor'   => 'Einstellungen Statistik Monitor',
+    'SHOP_MODULE_GROUP_DdrDiamondSearchPromotion' => 'Einstellungen Werbeprodukte Widget',
 
     // Settings
     'SHOP_MODULE_DdrDiamondSearchBundleSize'      => 'Max articles count for each auto-indexing run. The more it is the faster article will automatically re-index. But notice, that for big values shop might work slow!',

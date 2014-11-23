@@ -15,7 +15,7 @@
  */
 
 /**
- * @todo: German translations. NOTE: File encoding must be ISO-8859-15.
+ * @todo: German translations for remaining codes. NOTE: File encoding must be ISO-8859-15.
  */
 
 $sLangName = "Deutsch";
@@ -32,34 +32,34 @@ $aLang = array(
     /**
      * Advanced search form
      */
-    'DDR_DIAMONDSEARCH_FORM_TITLE'                    => 'Advanced search',
-    'DDR_DIAMONDSEARCH_FORM_OR'                       => 'or',
-    'DDR_DIAMONDSEARCH_FORM_GO'                       => 'Go!',
+    'DDR_DIAMONDSEARCH_FORM_TITLE'                    => 'Erweiterte Suche',
+    'DDR_DIAMONDSEARCH_FORM_OR'                       => 'oder',
+    'DDR_DIAMONDSEARCH_FORM_GO'                       => 'Los!',
 
 
     /**
      * Filters
      */
 
-    'DDR_DIAMONDSEARCH_FILTER_HEADNG'                 => 'Search',
-    'DDR_DIAMONDSEARCH_FILTER_RESET'                  => 'Reset filters',
+    'DDR_DIAMONDSEARCH_FILTER_HEADNG'                 => 'Suche',
+    'DDR_DIAMONDSEARCH_FILTER_RESET'                  => 'Filter zurücksetzen',
 
-    'DDR_DIAMONDSEARCH_FILTER_DDR_PRICE_TITLE'        => 'Price Range',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_CATEGORY_TITLE'     => 'Category',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_VENDOR_TITLE'       => 'Vendor',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_MANUFACTURER_TITLE' => 'Manufacturer',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_PRICE_TITLE'        => 'Preisbereich ',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_CATEGORY_TITLE'     => 'Kategorie',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_VENDOR_TITLE'       => 'Zulieferer',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_MANUFACTURER_TITLE' => 'Hersteller',
 
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_AREA'          => 'Area of application',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_COLOR'         => 'Color',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_CUT'           => 'Cut',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_AREA'          => 'Einsatzbereich',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_COLOR'         => 'Farbe',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_CUT'           => 'Schnitt',
     'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_DESIGN'        => 'Design',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_DISPLAY'       => 'Display',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_EUSIZE'        => 'EU-Size',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_INCDELIVERY'   => 'Includes',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_DISPLAY'       => 'Anzeige',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_EUSIZE'        => 'EU-Grösse',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_INCDELIVERY'   => 'Lieferumfang',
     'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_MATERIAL'      => 'Material',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_MODEL'         => 'Model',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_SIZE'          => 'Size',
-    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_TEXTURE'       => 'Texture',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_MODEL'         => 'Modell',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_SIZE'          => 'Grösse',
+    'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_TEXTURE'       => 'Textur',
     'DDR_DIAMONDSEARCH_FILTER_DDR_ATTR_WASHING'       => 'Washing',
 
 
@@ -69,29 +69,29 @@ $aLang = array(
 
     // Texts
     'DDR_DIAMONDSEARCH_MONITOR_TITLE'                 => 'Diamond Search - Monitor',
-    'DDR_DIAMONDSEARCH_MONITOR_INTRO'                 => 'Welcome to Diamond Search engine status and statistics dashboard!',
-    'DDR_DIAMONDSEARCH_MONITOR_CEINFO'                => 'NOTE: Diamond Search CE has only very limited setting and statistics.',
-    'DDR_DIAMONDSEARCH_MONITOR_MORETOCOME'            => 'More statistics and parameters to come in next releases!',
+    'DDR_DIAMONDSEARCH_MONITOR_INTRO'                 => 'Willkommen bei Diamond Search Status- und Statistik-Dashboard!',
+    'DDR_DIAMONDSEARCH_MONITOR_CEINFO'                => 'Bemerkung: Diamond Search CE hat nur begrenzte Einstellungsmöglichkeiten und Statistiken.',
+    'DDR_DIAMONDSEARCH_MONITOR_MORETOCOME'            => 'Weitere Statistiken und Einstellungsmöglichkeiten werden in zukünftigen Versionen integriert!',
 
     // Table headings
-    'DDR_DIAMONDSEARCH_MONITOR_CURRENTLANG'           => 'Current language statistics',
-    'DDR_DIAMONDSEARCH_MONITOR_ALLLANGS'              => 'All languages statistics',
-    'DDR_DIAMONDSEARCH_MONITOR_EEPEONLY'              => '(EE/PE Editions Only)',
+    'DDR_DIAMONDSEARCH_MONITOR_CURRENTLANG'           => 'Statistiken der aktuellen Sprachauswahl',
+    'DDR_DIAMONDSEARCH_MONITOR_ALLLANGS'              => 'Alle Sprachstatistiken',
+    'DDR_DIAMONDSEARCH_MONITOR_EEPEONLY'              => '(Nur EE/PE Edition)',
 
     // Table content
-    'DDR_DIAMONDSEARCH_MONITOR_INDEXSIZE'             => 'Indexed articles count',
-    'DDR_DIAMONDSEARCH_MONITOR_QUEUESIZE'             => 'Not indexed articles waiting in queue',
-    'DDR_DIAMONDSEARCH_MONITOR_FIELDSCOUNT'           => 'Number of article fields to search by',
+    'DDR_DIAMONDSEARCH_MONITOR_INDEXSIZE'             => 'Anzahl indexierter Artikel',
+    'DDR_DIAMONDSEARCH_MONITOR_QUEUESIZE'             => 'Nicht indexierte Artikel in der Warteschlange',
+    'DDR_DIAMONDSEARCH_MONITOR_FIELDSCOUNT'           => 'Anzahl der Artikelfelder zu suchen nach',
     'DDR_DIAMONDSEARCH_MONITOR_FILTERSVALSCOUNT'      => 'Filter values count in index',
     'DDR_DIAMONDSEARCH_MONITOR_FILTERSCOUNT'          => 'Different filters count in index',
     'DDR_DIAMONDSEARCH_MONITOR_TERMSCOUNT'            => 'Search terms count in index',
     'DDR_DIAMONDSEARCH_MONITOR_TERM2ARTCOUNT'         => 'Search relations count between articles and terms',
-    'DDR_DIAMONDSEARCH_MONITOR_TOPUSEDTERMS'          => 'Most frequently indexed terms',
-    'DDR_DIAMONDSEARCH_MONITOR_TOPSEARCHEDTERMS'      => 'Most popular terms users search for',
+    'DDR_DIAMONDSEARCH_MONITOR_TOPUSEDTERMS'          => 'Am häufigsten indexierte Begriffe',
+    'DDR_DIAMONDSEARCH_MONITOR_TOPSEARCHEDTERMS'      => 'Beliebteste Begriffe nach denen Kunden gesucht haben',
 
     // Actions and tools
-    'DDR_DIAMONDSEARCH_MONITOR_TOOLS'                 => 'Tools',
-    'DDR_DIAMONDSEARCH_MONITOR_INDEXNOW'              => 'Index now!',
-    'DDR_DIAMONDSEARCH_MONITOR_REINDEXALL'            => 'Re-index all articles',
-    'DDR_DIAMONDSEARCH_MONITOR_REINDEXHINT'           => 'To re-index articles, please deactivate and activate the module again in administration area.',
+    'DDR_DIAMONDSEARCH_MONITOR_TOOLS'                 => 'Werkzeuge',
+    'DDR_DIAMONDSEARCH_MONITOR_INDEXNOW'              => 'Jetzt indexieren!',
+    'DDR_DIAMONDSEARCH_MONITOR_REINDEXALL'            => 'Re-index aller Artikel',
+    'DDR_DIAMONDSEARCH_MONITOR_REINDEXHINT'           => 'Um Artikel zu re-indexieren musst du das Modul im Administrationsbereich deaktivieren und erneut aktivieren.',
 );

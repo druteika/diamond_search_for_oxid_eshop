@@ -45,6 +45,7 @@ What's new in v0.4.x
  - Search filters adjusted
     - Selected filter is highlighted
     - If filter is selected, other values are not shown
+ - German translations (not complete)
  - Bug fixes and refactoring
     - German language specific words parsing fixed
     - Filter values URL encoding issues fixed
