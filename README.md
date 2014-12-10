@@ -1,7 +1,7 @@
 Diamond Search CE
 =================
 
-[Official Website](http://www.druteika.lt/#diamond_search_for_oxid_eshop) | [Diamond Search EE, PE Live Demo!](http://www.druteika.lt/diamond_search_demo/) | [Diamond Search EE, PE on eXchange Store](http://exchange.oxid-esales.com/Shopping-experience/Shop-search/Diamond-Search-EE-PE-0-3-0-Stable-EE-PE-4-7-x-5-0-x-4-8-x-5-1-x.html)
+[Official Website](http://www.druteika.lt/#diamond_search_for_oxid_eshop) | [Diamond Search EE, PE Live Demo!](http://www.druteika.lt/diamond_search_demo/) | [Diamond Search EE, PE on eXchange Store](http://exchange.oxid-esales.com/Shopping-experience/Shop-search/Diamond-Search-v0-4-0-EE-PE-0-4-0-Stable-EE-PE-4-7-x-5-0-x-4-9-x-5-2-x.html)
 
 Diamond Search - Simply brilliant out-of-the-box search engine for OXID eShop!
 ------------------------------------------------------------------------------
